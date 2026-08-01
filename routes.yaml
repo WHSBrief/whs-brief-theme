@@ -1,0 +1,44 @@
+# WHS Brief content routing
+#
+# This file is NOT part of the theme zip — Ghost applies routes.yaml at the
+# site level, not the theme level. To use it:
+#   - Local dev instance: copy to <ghost-content-dir>/settings/routes.yaml
+#     and restart Ghost (`ghost restart`), OR
+#   - Live Ghost(Pro) site: Settings > Advanced > Routes > upload this file.
+#
+# What this does:
+#   - Posts tagged #blog  -> permalink /blog/{slug}/  (free, public content)
+#   - Posts tagged #brief -> permalink /brief/{slug}/ (the paywalled weekly brief)
+#   - Anything else falls through to the default /{slug}/ permalink.
+#   - The homepage (/) still lists ALL posts together (mixed feed) — gated
+#     #brief posts show with Ghost's built-in locked-card styling there,
+#     which is what nudges free readers toward subscribing. /blog/ and
+#     /brief/ exist as dedicated section pages for browsing just one type.
+#
+# Content access (Public / free members / paid members only) is set per-post
+# in the editor's Access setting — routes.yaml only controls URL structure
+# and which posts appear on which listing pages, not who can read them.
+#
+# Nav links to /blog/ and /brief/ are added separately in
+# Ghost Admin > Design > Navigation (not part of routes.yaml).
+
+routes:
+
+collections:
+  /blog/:
+    permalink: /blog/{slug}/
+    template: index
+    filter: tag:blog
+
+  /brief/:
+    permalink: /brief/{slug}/
+    template: index
+    filter: tag:brief
+
+  /:
+    permalink: /{slug}/
+    template: index
+
+taxonomies:
+  tag: /tag/{slug}/
+  author: /author/{slug}/

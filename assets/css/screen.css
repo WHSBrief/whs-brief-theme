@@ -3132,3 +3132,75 @@ file to add some of your own styles. Well, you've come to
 the right place. Onward!
 
  */
+
+/* 13. WHS Brief brand overrides
+/* ---------------------------------------------------------- */
+
+:root {
+    --font-serif: 'Iowan Old Style', 'Palatino Linotype', 'URW Palladio L', P052, serif;
+    --whs-paper: #EFF1EF;
+    --whs-paper-dark: #14181A;
+}
+
+/* Page background gets a subtle paper tone; header/cards/footer keep their
+   existing white/dark surfaces on top of it, matching the paper/ink look
+   used across the WHS Brief detailed brief and email newsletter. */
+body {
+    background: var(--whs-paper);
+}
+
+html.dark-mode body {
+    background: var(--whs-paper-dark);
+}
+
+/* Ad slots
+/* ---------------------------------------------------------- */
+
+.whs-ad-slot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.whs-ad-slot--header {
+    padding: 16px 0;
+}
+
+.whs-ad-slot--in-content {
+    margin: 32px 0;
+}
+
+/* Fixed rail on wide viewports only — Casper has no native sidebar column,
+   so this docks alongside the content instead of squeezing the layout. */
+.whs-ad-slot--sidebar {
+    display: none;
+}
+
+@media (min-width: 1400px) {
+    .whs-ad-slot--sidebar {
+        display: block;
+        position: fixed;
+        top: 120px;
+        right: 24px;
+        width: 160px;
+        z-index: 100;
+    }
+}
+
+.whs-ad-placeholder {
+    width: 100%;
+    max-width: 728px;
+    padding: 28px 16px;
+    border: 1px dashed var(--color-border);
+    border-radius: 4px;
+    color: var(--color-secondary-text);
+    font-size: 1.3rem;
+    text-align: center;
+    background: var(--color-lightgrey);
+}
+
+html.dark-mode .whs-ad-placeholder {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--color-midgrey);
+}

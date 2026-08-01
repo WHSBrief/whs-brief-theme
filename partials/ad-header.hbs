@@ -1,0 +1,22 @@
+{{!--
+    Header banner ad slot. Shown on every page, just below the site header.
+    Gated behind the "show_ads" theme setting (Ghost Admin > Design >
+    Brand/Theme settings) so nothing renders until an ad network is wired up.
+--}}
+{{#if @custom.show_ads}}
+<div class="whs-ad-slot whs-ad-slot--header outer">
+    <div class="inner">
+        {{#if @custom.adsense_client_id}}
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="{{@custom.adsense_client_id}}"
+             data-ad-slot="0000000000"
+             data-ad-format="horizontal"
+             data-full-width-responsive="true"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        {{else}}
+        <div class="whs-ad-placeholder">Advertisement — header slot (set adsense_client_id in theme settings)</div>
+        {{/if}}
+    </div>
+</div>
+{{/if}}

@@ -1,0 +1,20 @@
+{{!--
+    Sidebar "rail" ad slot. Casper is a single-column theme with no true
+    sidebar, so this renders as a fixed-position unit docked to the side of
+    the viewport on wide screens (see .whs-ad-slot--sidebar in screen.css)
+    and is hidden entirely on narrower/mobile viewports.
+--}}
+{{#if @custom.show_ads}}
+<div class="whs-ad-slot whs-ad-slot--sidebar">
+    {{#if @custom.adsense_client_id}}
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="{{@custom.adsense_client_id}}"
+         data-ad-slot="0000000001"
+         data-ad-format="auto"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    {{else}}
+    <div class="whs-ad-placeholder">Ad — sidebar slot</div>
+    {{/if}}
+</div>
+{{/if}}

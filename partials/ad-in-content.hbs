@@ -1,0 +1,22 @@
+{{!--
+    In-content ad slot. Placed once, immediately after the post body and
+    before the subscribe CTA — the safest spot to inject an ad without
+    fragile mid-paragraph DOM manipulation of {{content}}'s opaque HTML.
+--}}
+{{#if @custom.show_ads}}
+<div class="whs-ad-slot whs-ad-slot--in-content outer">
+    <div class="inner gh-canvas">
+        {{#if @custom.adsense_client_id}}
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="{{@custom.adsense_client_id}}"
+             data-ad-slot="0000000002"
+             data-ad-format="fluid"
+             data-ad-layout="in-article"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        {{else}}
+        <div class="whs-ad-placeholder">Advertisement — in-content slot</div>
+        {{/if}}
+    </div>
+</div>
+{{/if}}
