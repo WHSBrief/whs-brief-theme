@@ -1,92 +1,85 @@
-# Casper
+# WHS Brief — Ghost theme
 
-A classic theme for [Ghost](http://github.com/tryghost/ghost/), originally the default theme. These days, our default theme is [Source](http://github.com/tryghost/source/)
+Adapted from Ghost's official Casper theme for the WHS Brief subscription
+publication. Free posts (`#blog` tag) and the paywalled weekly brief
+(`#brief` tag) share this theme; access is gated per-post in Ghost Admin,
+not by the theme.
 
-This is the latest development version of Casper! If you're just looking to download the latest release, head over to the [releases](https://github.com/TryGhost/Casper/releases) page.
+## What's customised vs. stock Casper
 
-&nbsp;
+- **Branding**: `assets/css/screen.css` overrides `--font-serif` to match
+  the brand's serif stack, and tints the page background with a paper tone
+  (`--whs-paper`). The accent colour itself is set in Ghost Admin
+  (Settings > Design > Brand), not hardcoded in the theme — Casper already
+  wires a `--ghost-accent-color` CSS variable everywhere for this. **When
+  setting it: type the hex value WITH the `#` prefix (e.g. `#256464`, not
+  `256464`) and click Save directly without clicking elsewhere first** —
+  the colour-picker silently reverts to its previous value on blur if you
+  don't include the `#`, or if you click away before saving.
+- **`routes.yaml`** (repo root): defines `/blog/` and `/brief/` as tag-filtered
+  collections with their own permalink structure. This is a Ghost
+  *site-level* config file, not part of the theme zip — see the comment
+  at the top of the file for how to apply it (local dev vs. live Ghost(Pro)).
+- **Ad slots**: `partials/ad-header.hbs`, `ad-sidebar.hbs`, `ad-in-content.hbs`,
+  wired into `default.hbs` and `post.hbs`. All gated behind the `show_ads`
+  theme setting (off by default) and an `adsense_client_id` text setting —
+  both configurable in Ghost Admin > Design > Theme settings, no code
+  changes needed once an AdSense account is approved. Casper has no native
+  sidebar column, so the sidebar slot renders as a fixed rail on viewports
+  ≥1400px and is hidden below that.
+- **Custom theme settings defaults** (`package.json` → `config.custom`):
+  `title_font`/`body_font` default to "Elegant serif", `email_signup_text`
+  defaults to WHS Brief copy.
+- Package identity (`package.json` name/author) updated from "casper"/Ghost
+  Foundation to "whs-brief"/Orana Skills Centre.
 
-![screenshot-desktop](https://user-images.githubusercontent.com/1418797/183329195-8e8f2ee5-a473-4694-a813-a2575491209e.png)
+## Local development
 
-&nbsp;
-
-# First time using a Ghost theme?
-
-Ghost uses a simple templating language called [Handlebars](http://handlebarsjs.com/) for its themes.
-
-This theme has lots of code comments to help explain what's going on just by reading the code. Once you feel comfortable with how everything works, we also have full [theme API documentation](https://ghost.org/docs/themes/) which explains every possible Handlebars helper and template.
-
-**The main files are:**
-
-- `default.hbs` - The parent template file, which includes your global header/footer
-- `index.hbs` - The main template to generate a list of posts, usually the home page
-- `post.hbs` - The template used to render individual posts
-- `page.hbs` - Used for individual pages
-- `tag.hbs` - Used for tag archives, eg. "all posts tagged with `news`"
-- `author.hbs` - Used for author archives, eg. "all posts written by Jamie"
-
-One neat trick is that you can also create custom one-off templates by adding the slug of a page to a template file. For example:
-
-- `page-about.hbs` - Custom template for an `/about/` page
-- `tag-news.hbs` - Custom template for `/tag/news/` archive
-- `author-ali.hbs` - Custom template for `/author/ali/` archive
-
-
-# Development
-
-Casper styles are compiled using Gulp/PostCSS to polyfill future CSS spec. You'll need [Node](https://nodejs.org/), [pnpm](https://pnpm.io/) and [Gulp](https://gulpjs.com) installed globally. After that, from the theme's root directory:
-
-```bash
-# install dependencies
-pnpm install
-
-# run development server
-pnpm dev
-```
-
-Now you can edit `/assets/css/` files, which will be compiled to `/assets/built/` automatically.
-
-The `zip` Gulp task packages the theme files into `dist/<theme-name>.zip`, which you can then upload to your site.
+Requires Node 22 (Ghost core itself pins to `^22.23.1` as of writing — newer
+Node LTS releases are NOT yet supported by Ghost, even though this theme's
+own `package.json` only asks for `>=22.12.0`) and Python 3 with `setuptools`
+(needed to build better-sqlite3's native bindings — on Windows, Python's
+installer doesn't create a `python3` command by default, so a `python3.exe`
+shim copy of `python.exe` is needed).
 
 ```bash
-# create .zip file
-pnpm zip
+pnpm install --frozen-lockfile   # via corepack, pinned to the version in package.json
+pnpm run build                   # compile CSS/JS into assets/built/
+pnpm run zip                     # build + package as dist/whs-brief.zip
+pnpm exec gscan --fatal --verbose .   # Ghost's official theme validator
 ```
 
-# Publishing a release
+To preview against a real Ghost instance: `ghost install local` in a
+separate directory (not this repo), copy this theme folder into its
+`content/themes/whs-brief/`, copy `routes.yaml` into
+`content/settings/routes.yaml`, `ghost restart`, then activate the theme in
+Ghost Admin > Settings > Design > Change theme > Installed.
 
-Releases are shipped in two steps. First bump the version — this updates `package.json` and creates the matching commit and `v<version>` git tag:
+## Deploying to the live Ghost(Pro) site
 
-```bash
-# pick one of: patch | minor | major (or an explicit version, e.g. 5.13.0)
-pnpm version minor
-```
+**Manual (simplest, no setup required):**
+1. `pnpm run zip` to produce `dist/whs-brief.zip`.
+2. On the live site: Ghost Admin > Settings > Design > Change theme >
+   Upload theme > select the zip > Activate.
 
-Then run `ship`, which checks the working tree is clean, pushes the commit and tag, and drafts the GitHub release from the changelog:
+**Automated (`.github/workflows/deploy-to-ghost-pro.yml`, already in this
+repo but inactive until configured):**
+Builds and uploads the theme via [TryGhost's official deploy action](https://github.com/TryGhost/action-deploy-theme)
+on every push to `main`. To activate it:
+1. Ghost Admin (live site) > Settings > Integrations > Add custom
+   integration > name it e.g. "GitHub deploy" > copy the **Admin API Key**.
+2. In this GitHub repo: Settings > Secrets and variables > Actions > add
+   secret `GHOST_ADMIN_API_KEY` (the key from step 1) and secret/variable
+   `GHOST_API_URL` (the site's URL, e.g. `https://www.whsbrief.com`).
+3. Settings > Environments > New environment named `production-deploy` >
+   enable **Required reviewers** with yourself added — this makes every
+   deploy to the live site wait for your manual approval in the Actions
+   tab, rather than pushing to production unattended.
 
-```bash
-pnpm ship
-```
+Until steps 1–3 are done, the workflow will simply fail with a clear
+"secret not configured" error — it won't touch the live site.
 
-> [!NOTE]
-> `pnpm version` must be run first — unlike the old `yarn version`, `pnpm version` is not interactive and `pnpm ship` no longer performs the bump itself.
+---
 
-# PostCSS Features Used
-
-- Autoprefixer - Don't worry about writing browser prefixes of any kind, it's all done automatically with support for the latest 2 major versions of every browser.
-- [Color Mod](https://github.com/jonathantneal/postcss-color-mod-function)
-
-
-# SVG Icons
-
-Casper uses inline SVG icons, included via Handlebars partials. You can find all icons inside `/partials/icons`. To use an icon just include the name of the relevant file, eg. To include the SVG icon in `/partials/icons/rss.hbs` - use `{{> "icons/rss"}}`.
-
-You can add your own SVG icons in the same manner.
-
-# Translations
-
-Please see [@TryGhost/Themes/theme-translations/README.md](https://github.com/TryGhost/Themes/blob/main/packages/theme-translations/README.md) for how to build, edit, or contribute translations.
-
-# Copyright & License
-
-Copyright (c) 2013-2026 Ghost Foundation - Released under the [MIT license](LICENSE).
+Originally forked from Ghost's official [Casper](https://github.com/TryGhost/Casper)
+theme, MIT licensed, © Ghost Foundation.

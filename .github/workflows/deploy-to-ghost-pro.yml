@@ -1,0 +1,45 @@
+name: Deploy theme to Ghost(Pro)
+
+# Builds the theme and uploads it to the live Ghost(Pro) site whenever main
+# is pushed. INACTIVE until GHOST_ADMIN_API_KEY and GHOST_API_URL secrets
+# are added (Settings > Secrets and variables > Actions) — see README.md
+# "Deploying to the live site" for how to get these values. Until then this
+# workflow will simply fail with a clear "secret not set" style error rather
+# than doing anything to the live site.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production-deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build theme
+        run: pnpm run build
+
+      - name: Zip theme
+        run: pnpm run zip
+
+      - name: Deploy to Ghost(Pro)
+        uses: TryGhost/action-deploy-theme@v1
+        with:
+          api-url: ${{ secrets.GHOST_API_URL }}
+          api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
+          theme: dist/whs-brief.zip
