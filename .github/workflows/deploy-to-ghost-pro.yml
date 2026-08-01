@@ -42,4 +42,5 @@ jobs:
         with:
           api-url: ${{ secrets.GHOST_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
-          theme: dist/whs-brief.zip
+          file: dist/whs-brief.zip
+          theme-name: whs-brief
