@@ -1,11 +1,10 @@
 name: Deploy theme to Ghost(Pro)
 
 # Builds the theme and uploads it to the live Ghost(Pro) site whenever main
-# is pushed. INACTIVE until GHOST_ADMIN_API_KEY and GHOST_API_URL secrets
-# are added (Settings > Secrets and variables > Actions) — see README.md
-# "Deploying to the live site" for how to get these values. Until then this
-# workflow will simply fail with a clear "secret not set" style error rather
-# than doing anything to the live site.
+# is pushed. Needs GHOST_ADMIN_API_KEY (a repo Secret) and GHOST_API_URL (a
+# repo Variable — note the different tab under Settings > Secrets and
+# variables > Actions) — see README.md "Deploying to the live site" for how
+# to get these values.
 on:
   push:
     branches: [main]
@@ -40,7 +39,7 @@ jobs:
       - name: Deploy to Ghost(Pro)
         uses: TryGhost/action-deploy-theme@v1
         with:
-          api-url: ${{ secrets.GHOST_API_URL }}
+          api-url: ${{ vars.GHOST_API_URL }}
           api-key: ${{ secrets.GHOST_ADMIN_API_KEY }}
           file: dist/whs-brief.zip
           theme-name: whs-brief
