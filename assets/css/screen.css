@@ -3492,7 +3492,7 @@ html.dark-mode .whs-brief-doc {
     line-height: 1.65;
     color: var(--wbd-ink-soft);
     margin: 0 0 0.6rem;
-    max-width: 100ch;
+    max-width: none;
 }
 
 .whs-brief-doc .wbd-item a.wbd-src {
