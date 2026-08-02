@@ -14,6 +14,11 @@ filtered browsing view, not a permalink prefix. See routes.yaml. --}}
 <main id="site-main" class="site-main outer">
 <div class="inner posts">
 
+    <div class="whs-brief-intro">
+        <p>Every week: amendments, commencements and proposals moving through Commonwealth, state and territory work health &amp; safety law across all nine Australian jurisdictions — plus New Zealand developments, relevant Australian Standards, and notable WHS court decisions. Each item sourced and linked back to the regulator, court record or legal publisher it came from.</p>
+        <a class="gh-head-button" href="#/portal/signup" data-portal="signup">{{t "Subscribe"}}</a>
+    </div>
+
     <div class="post-feed">
         {{#get "posts" filter="tag:brief" limit="all" include="tags,authors" as |posts|}}
             {{#foreach posts}}

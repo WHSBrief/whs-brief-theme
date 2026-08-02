@@ -3204,3 +3204,24 @@ html.dark-mode .whs-ad-placeholder {
     background: rgba(255, 255, 255, 0.04);
     color: var(--color-midgrey);
 }
+
+.whs-brief-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 24px;
+    justify-content: space-between;
+    padding: 24px 0 32px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.whs-brief-intro p {
+    flex: 1 1 480px;
+    margin: 0;
+    color: var(--color-secondary-text);
+}
+
+.whs-brief-intro .gh-head-button {
+    flex-shrink: 0;
+}
