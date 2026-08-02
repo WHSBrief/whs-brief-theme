@@ -3252,8 +3252,10 @@ html.dark-mode .whs-ad-placeholder {
 
     background: var(--wbd-paper);
     color: var(--wbd-ink);
-    padding: 2rem 1.75rem 2.5rem;
+    padding: 2.5rem 3rem 3rem;
     border-radius: 4px;
+    max-width: none;
+    font-size: 1rem;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -3295,7 +3297,7 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-eyebrow {
-    font: 600 0.85rem/1 var(--font-sans, sans-serif);
+    font: 600 0.95rem/1 var(--font-sans, sans-serif);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--wbd-accent);
@@ -3305,7 +3307,7 @@ html.dark-mode .whs-brief-doc {
 .whs-brief-doc .wbd-masthead h1 {
     font-family: var(--wbd-serif);
     font-weight: 600;
-    font-size: 2.6rem;
+    font-size: 3.2rem;
     line-height: 1.15;
     margin: 0 0 0.5rem;
     color: var(--wbd-ink);
@@ -3313,8 +3315,8 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-dek {
-    font-size: 1.15rem;
-    line-height: 1.5;
+    font-size: 1.3rem;
+    line-height: 1.55;
     color: var(--wbd-ink-soft);
     max-width: 56ch;
     margin: 0;
@@ -3327,7 +3329,7 @@ html.dark-mode .whs-brief-doc {
     flex-wrap: wrap;
     gap: 0.3rem;
     margin-top: 0.9rem;
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     color: var(--wbd-ink-soft);
     font-variant-numeric: tabular-nums;
 }
@@ -3340,11 +3342,11 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc nav.wbd-toc a {
-    font-size: 0.9rem;
+    font-size: 1.02rem;
     text-decoration: none;
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.32rem 0.7rem;
+    padding: 0.36rem 0.8rem;
     border-radius: 2px;
     letter-spacing: 0.02em;
 }
@@ -3364,7 +3366,7 @@ html.dark-mode .whs-brief-doc {
 
 .whs-brief-doc .wbd-summary h2 {
     font-family: var(--wbd-serif);
-    font-size: 1.15rem;
+    font-size: 1.4rem;
     font-weight: 600;
     margin: 0 0 0.6rem;
     color: var(--wbd-accent);
@@ -3376,10 +3378,10 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-summary li {
-    font-size: 1.08rem;
-    line-height: 1.55;
+    font-size: 1.25rem;
+    line-height: 1.6;
     color: var(--wbd-ink);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
 }
 
 .whs-brief-doc .wbd-summary li:last-child {
@@ -3402,14 +3404,14 @@ html.dark-mode .whs-brief-doc {
 
 .whs-brief-doc .wbd-juris-head h2 {
     font-family: var(--wbd-serif);
-    font-size: 1.65rem;
+    font-size: 2rem;
     font-weight: 600;
     margin: 0;
     color: var(--wbd-ink);
 }
 
 .whs-brief-doc .wbd-juris-head .wbd-full {
-    font-size: 0.92rem;
+    font-size: 1.05rem;
     color: var(--wbd-ink-soft);
     font-style: italic;
 }
@@ -3433,10 +3435,10 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-tag {
-    font: 600 0.8rem/1 var(--font-sans, sans-serif);
+    font: 600 0.92rem/1 var(--font-sans, sans-serif);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding: 0.28rem 0.6rem;
+    padding: 0.32rem 0.7rem;
     border-radius: 2px;
     white-space: nowrap;
 }
@@ -3457,16 +3459,16 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-date {
-    font-size: 0.9rem;
+    font-size: 1.02rem;
     color: var(--wbd-ink-soft);
     font-variant-numeric: tabular-nums;
 }
 
 .whs-brief-doc .wbd-item h3 {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     font-weight: 700;
     line-height: 1.35;
-    margin: 0.2rem 0 0.4rem;
+    margin: 0.25rem 0 0.45rem;
 }
 
 .whs-brief-doc .wbd-item h3 a {
@@ -3479,15 +3481,15 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-item p {
-    font-size: 1.08rem;
-    line-height: 1.6;
+    font-size: 1.25rem;
+    line-height: 1.65;
     color: var(--wbd-ink-soft);
-    margin: 0 0 0.5rem;
-    max-width: 68ch;
+    margin: 0 0 0.6rem;
+    max-width: 75ch;
 }
 
 .whs-brief-doc .wbd-item a.wbd-src {
-    font-size: 0.9rem;
+    font-size: 1.02rem;
     color: var(--wbd-accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
@@ -3498,7 +3500,7 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-none {
-    font-size: 1.05rem;
+    font-size: 1.2rem;
     color: var(--wbd-ink-soft);
     font-style: italic;
     padding: 0.4rem 0;
@@ -3508,7 +3510,7 @@ html.dark-mode .whs-brief-doc {
     margin-top: 3rem;
     padding-top: 1.2rem;
     border-top: 1px solid var(--wbd-rule);
-    font-size: 0.88rem;
+    font-size: 0.98rem;
     line-height: 1.5;
     color: var(--wbd-ink-soft);
 }
