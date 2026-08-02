@@ -7,13 +7,22 @@
 #   - Live Ghost(Pro) site: Settings > Advanced > Routes > upload this file.
 #
 # What this does:
-#   - Posts tagged #blog  -> permalink /blog/{slug}/  (free, public content)
-#   - Posts tagged #brief -> permalink /brief/{slug}/ (the paywalled weekly brief)
-#   - Anything else falls through to the default /{slug}/ permalink.
-#   - The homepage (/) still lists ALL posts together (mixed feed) — gated
+#   - ALL posts get the same flat /{slug}/ permalink, via the single
+#     unfiltered "/" collection below — Ghost's collections are mutually
+#     exclusive (a post claimed by one collection's filter disappears from
+#     any other, including an unfiltered one), so an earlier version of this
+#     file that gave /blog/ and /brief/ their own permalink-claiming
+#     collections caused the homepage to show ZERO posts once every post was
+#     tagged #blog or #brief (both got claimed, leaving nothing for the
+#     unfiltered "/" collection to list). Keeping permalinks on a single
+#     collection avoids that trap.
+#   - /blog/ and /brief/ are plain routes (not collections) rendering the
+#     theme's blog.hbs / brief.hbs templates, which independently fetch
+#     posts via {{#get}} with a tag filter — pure browsing views, with no
+#     effect on permalinks or on what the homepage shows.
+#   - The homepage (/) lists ALL posts together (mixed feed) — gated
 #     #brief posts show with Ghost's built-in locked-card styling there,
-#     which is what nudges free readers toward subscribing. /blog/ and
-#     /brief/ exist as dedicated section pages for browsing just one type.
+#     which is what nudges free readers toward subscribing.
 #
 # Content access (Public / free members / paid members only) is set per-post
 # in the editor's Access setting — routes.yaml only controls URL structure
@@ -23,18 +32,13 @@
 # Ghost Admin > Design > Navigation (not part of routes.yaml).
 
 routes:
-
-collections:
   /blog/:
-    permalink: /blog/{slug}/
-    template: index
-    filter: tag:blog
+    template: blog
 
   /brief/:
-    permalink: /brief/{slug}/
-    template: index
-    filter: tag:brief
+    template: brief
 
+collections:
   /:
     permalink: /{slug}/
     template: index

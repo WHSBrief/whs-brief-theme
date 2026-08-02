@@ -1,0 +1,28 @@
+{{!< default}}
+{{!-- WHS Brief: custom route (not a collection) rendering only #blog-tagged
+posts via {{#get}}. Posts still get the site's normal /{slug}/ permalink
+(from the unfiltered "/" collection in routes.yaml) — this page is purely a
+filtered browsing view, not a permalink prefix. See routes.yaml. --}}
+
+<div class="site-header-content outer">
+    <div class="site-header-inner inner">
+        <h1 class="site-title">Blog</h1>
+        <p class="site-description">Free WHS/OHS updates and explainers.</p>
+    </div>
+</div>
+
+<main id="site-main" class="site-main outer">
+<div class="inner posts">
+
+    <div class="post-feed">
+        {{#get "posts" filter="tag:blog" limit="all" include="tags,authors" as |posts|}}
+            {{#foreach posts}}
+                {{> "post-card"}}
+            {{else}}
+                <p class="none">No posts yet.</p>
+            {{/foreach}}
+        {{/get}}
+    </div>
+
+</div>
+</main>
