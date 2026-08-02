@@ -34,8 +34,13 @@ into the {body} of the default.hbs template --}}
 
     <div class="post-feed">
         {{#foreach posts}}
-            {{!-- The tag below includes the markup for each post - partials/post-card.hbs --}}
-            {{> "post-card"}}
+            {{!-- WHS Brief: homepage shows free content only — #brief posts
+            are deliberately excluded here so the weekly paid brief doesn't
+            appear (not even as a locked teaser card) outside /brief/. --}}
+            {{#has tag="brief"}}
+            {{else}}
+                {{> "post-card"}}
+            {{/has}}
         {{/foreach}}
     </div>
 
