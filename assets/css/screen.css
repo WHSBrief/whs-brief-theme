@@ -3258,6 +3258,13 @@ html.dark-mode .whs-ad-placeholder {
     font-size: 1rem;
 }
 
+/* Force the "wide" grid column regardless of whether Ghost wrapped this
+   card with a kg-width-wide class — the html card renders .whs-brief-doc
+   as a direct child of .gh-canvas with no wrapper, so target it directly. */
+.gh-canvas > .whs-brief-doc {
+    grid-column: wide-start / wide-end;
+}
+
 @media (prefers-color-scheme: dark) {
     .whs-brief-doc {
         --wbd-paper: #14181A;
