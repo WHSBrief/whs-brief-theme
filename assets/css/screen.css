@@ -3295,7 +3295,7 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-eyebrow {
-    font: 600 0.72rem/1 var(--font-sans, sans-serif);
+    font: 600 0.85rem/1 var(--font-sans, sans-serif);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--wbd-accent);
@@ -3305,7 +3305,7 @@ html.dark-mode .whs-brief-doc {
 .whs-brief-doc .wbd-masthead h1 {
     font-family: var(--wbd-serif);
     font-weight: 600;
-    font-size: 2.15rem;
+    font-size: 2.6rem;
     line-height: 1.15;
     margin: 0 0 0.5rem;
     color: var(--wbd-ink);
@@ -3313,7 +3313,8 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-dek {
-    font-size: 0.98rem;
+    font-size: 1.15rem;
+    line-height: 1.5;
     color: var(--wbd-ink-soft);
     max-width: 56ch;
     margin: 0;
@@ -3326,7 +3327,7 @@ html.dark-mode .whs-brief-doc {
     flex-wrap: wrap;
     gap: 0.3rem;
     margin-top: 0.9rem;
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     color: var(--wbd-ink-soft);
     font-variant-numeric: tabular-nums;
 }
@@ -3339,11 +3340,11 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc nav.wbd-toc a {
-    font-size: 0.76rem;
+    font-size: 0.9rem;
     text-decoration: none;
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.28rem 0.6rem;
+    padding: 0.32rem 0.7rem;
     border-radius: 2px;
     letter-spacing: 0.02em;
 }
@@ -3363,7 +3364,7 @@ html.dark-mode .whs-brief-doc {
 
 .whs-brief-doc .wbd-summary h2 {
     font-family: var(--wbd-serif);
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     font-weight: 600;
     margin: 0 0 0.6rem;
     color: var(--wbd-accent);
@@ -3375,9 +3376,10 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-summary li {
-    font-size: 0.89rem;
+    font-size: 1.08rem;
+    line-height: 1.55;
     color: var(--wbd-ink);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
 }
 
 .whs-brief-doc .wbd-summary li:last-child {
@@ -3400,14 +3402,14 @@ html.dark-mode .whs-brief-doc {
 
 .whs-brief-doc .wbd-juris-head h2 {
     font-family: var(--wbd-serif);
-    font-size: 1.35rem;
+    font-size: 1.65rem;
     font-weight: 600;
     margin: 0;
     color: var(--wbd-ink);
 }
 
 .whs-brief-doc .wbd-juris-head .wbd-full {
-    font-size: 0.78rem;
+    font-size: 0.92rem;
     color: var(--wbd-ink-soft);
     font-style: italic;
 }
@@ -3431,10 +3433,10 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-tag {
-    font: 600 0.66rem/1 var(--font-sans, sans-serif);
+    font: 600 0.8rem/1 var(--font-sans, sans-serif);
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    padding: 0.22rem 0.5rem;
+    padding: 0.28rem 0.6rem;
     border-radius: 2px;
     white-space: nowrap;
 }
@@ -3455,15 +3457,16 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-date {
-    font-size: 0.76rem;
+    font-size: 0.9rem;
     color: var(--wbd-ink-soft);
     font-variant-numeric: tabular-nums;
 }
 
 .whs-brief-doc .wbd-item h3 {
-    font-size: 0.98rem;
+    font-size: 1.2rem;
     font-weight: 700;
-    margin: 0.15rem 0 0.3rem;
+    line-height: 1.35;
+    margin: 0.2rem 0 0.4rem;
 }
 
 .whs-brief-doc .wbd-item h3 a {
@@ -3476,14 +3479,15 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-item p {
-    font-size: 0.89rem;
+    font-size: 1.08rem;
+    line-height: 1.6;
     color: var(--wbd-ink-soft);
-    margin: 0 0 0.35rem;
-    max-width: 65ch;
+    margin: 0 0 0.5rem;
+    max-width: 68ch;
 }
 
 .whs-brief-doc .wbd-item a.wbd-src {
-    font-size: 0.76rem;
+    font-size: 0.9rem;
     color: var(--wbd-accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
@@ -3494,7 +3498,7 @@ html.dark-mode .whs-brief-doc {
 }
 
 .whs-brief-doc .wbd-none {
-    font-size: 0.88rem;
+    font-size: 1.05rem;
     color: var(--wbd-ink-soft);
     font-style: italic;
     padding: 0.4rem 0;
@@ -3504,7 +3508,8 @@ html.dark-mode .whs-brief-doc {
     margin-top: 3rem;
     padding-top: 1.2rem;
     border-top: 1px solid var(--wbd-rule);
-    font-size: 0.76rem;
+    font-size: 0.88rem;
+    line-height: 1.5;
     color: var(--wbd-ink-soft);
 }
 
