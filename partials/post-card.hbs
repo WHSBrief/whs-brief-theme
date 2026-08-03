@@ -58,8 +58,18 @@ which templates loop over to generate a list of posts. --}}
                     {{title}}
                 </h2>
             </header>
-            {{#if excerpt}}
-                <div class="post-card-excerpt">{{excerpt}}</div>
+            {{!-- WHS Brief: read custom_excerpt directly rather than the
+            {{excerpt}} helper — on posts fetched via {{#get}} (our /blog/ and
+            /brief/ custom routes), {{excerpt}} was observed not to reliably
+            fall through to custom_excerpt, even though the raw field is
+            correct via the Content API. Falls back to the helper for posts
+            with no custom excerpt set. --}}
+            {{#if custom_excerpt}}
+                <div class="post-card-excerpt">{{custom_excerpt}}</div>
+            {{else}}
+                {{#if excerpt}}
+                    <div class="post-card-excerpt">{{excerpt}}</div>
+                {{/if}}
             {{/if}}
         </a>
 
