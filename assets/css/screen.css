@@ -3543,16 +3543,17 @@ html.dark-mode .whs-brief-doc {
 .wbd-register-tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    justify-content: center;
+    gap: 0.6rem;
     margin: 1.6rem 0 2.2rem;
 }
 
 .wbd-register-tab {
-    font: 600 2rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font: 600 2.3rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: var(--wbd-paper-raised);
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.7rem 1.6rem;
+    padding: 0.8rem 1.8rem;
     border-radius: 4px;
     cursor: pointer;
     letter-spacing: 0.02em;
