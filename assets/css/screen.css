@@ -3548,12 +3548,12 @@ html.dark-mode .whs-brief-doc {
 }
 
 .wbd-register-tab {
-    font: 600 0.85rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font: 600 2rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: var(--wbd-paper-raised);
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
+    padding: 0.7rem 1.6rem;
+    border-radius: 4px;
     cursor: pointer;
     letter-spacing: 0.02em;
 }
@@ -3576,13 +3576,17 @@ html.dark-mode .whs-brief-doc {
 
 .wbd-register-output .wbd-register-group h2 {
     font-family: var(--wbd-serif);
-    font-size: 1.35rem;
+    font-size: 2.3rem;
     font-weight: 600;
     border-bottom: 1px solid var(--wbd-ink);
     padding-bottom: 0.4rem;
     margin: 0 0 1.1rem;
 }
 
+/* Cloned .wbd-item nodes land inside .wbd-register-output, not inside a
+   .whs-brief-doc wrapper, so the .whs-brief-doc .wbd-item* rules above
+   don't reach them — restate the same sizes here rather than assume they
+   inherit anything from the brief page. */
 .wbd-register-output .wbd-item {
     padding: 0.9rem 0;
     border-bottom: 1px solid var(--wbd-rule);
@@ -3590,10 +3594,84 @@ html.dark-mode .whs-brief-doc {
 
 .wbd-register-output .wbd-item:last-child {
     border-bottom: none;
+    padding-bottom: 0;
+}
+
+.wbd-register-output .wbd-item-top {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.3rem;
+}
+
+.wbd-register-output .wbd-tag {
+    font: 600 1.05rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.36rem 0.8rem;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.wbd-register-output .wbd-tag.wbd-force {
+    color: var(--wbd-force);
+    background: var(--wbd-force-bg);
+}
+
+.wbd-register-output .wbd-tag.wbd-upcoming {
+    color: var(--wbd-upcoming);
+    background: var(--wbd-upcoming-bg);
+}
+
+.wbd-register-output .wbd-tag.wbd-proposed {
+    color: var(--wbd-proposed);
+    background: var(--wbd-proposed-bg);
+}
+
+.wbd-register-output .wbd-date {
+    font-size: 1.15rem;
+    color: var(--wbd-ink-soft);
+    font-variant-numeric: tabular-nums;
+}
+
+.wbd-register-output .wbd-item h3 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0.3rem 0 0.5rem;
+}
+
+.wbd-register-output .wbd-item h3 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.wbd-register-output .wbd-item h3 a:hover {
+    text-decoration: underline;
+}
+
+.wbd-register-output .wbd-item p {
+    font-size: 1.45rem;
+    line-height: 1.65;
+    color: var(--wbd-ink-soft);
+    margin: 0 0 0.7rem;
+    max-width: none;
+}
+
+.wbd-register-output .wbd-item a.wbd-src {
+    font-size: 1.15rem;
+    color: var(--wbd-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.wbd-register-output .wbd-item a.wbd-src:hover {
+    border-bottom-color: var(--wbd-accent);
 }
 
 .wbd-register-prov {
-    font-size: 0.78rem;
+    font-size: 1rem;
     color: var(--wbd-ink-soft);
     margin-top: 0.5rem;
 }
@@ -3610,14 +3688,14 @@ html.dark-mode .whs-brief-doc {
 
 .wbd-register-loading,
 .wbd-register-locked {
-    font-size: 0.95rem;
+    font-size: 1.35rem;
     color: var(--wbd-ink-soft);
     font-style: italic;
     padding: 1rem 0;
 }
 
 .wbd-register-footnote {
-    font-size: 0.82rem;
+    font-size: 1.1rem;
     color: var(--wbd-ink-soft);
     margin-top: 2.4rem;
     padding-top: 1rem;
