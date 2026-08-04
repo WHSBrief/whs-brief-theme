@@ -3536,3 +3536,100 @@ html.dark-mode .whs-brief-doc {
         gap: 0.2rem;
     }
 }
+
+/* Jurisdiction register (/register/) — reuses the .whs-brief-doc palette
+   and .wbd-item/.wbd-tag styling; the tab bar and provenance line below
+   are the only genuinely new UI. See register.hbs and assets/js/register.js. */
+.wbd-register-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1.6rem 0 2.2rem;
+}
+
+.wbd-register-tab {
+    font: 600 0.85rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--wbd-paper-raised);
+    color: var(--wbd-ink-soft);
+    border: 1px solid var(--wbd-rule);
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+}
+
+.wbd-register-tab:hover {
+    border-color: var(--wbd-accent);
+    color: var(--wbd-accent);
+}
+
+.wbd-register-tab.is-active {
+    background: var(--wbd-accent);
+    border-color: var(--wbd-accent);
+    color: var(--wbd-paper-raised);
+}
+
+.wbd-register-output .wbd-register-group {
+    margin-bottom: 2.8rem;
+    scroll-margin-top: 1rem;
+}
+
+.wbd-register-output .wbd-register-group h2 {
+    font-family: var(--wbd-serif);
+    font-size: 1.35rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--wbd-ink);
+    padding-bottom: 0.4rem;
+    margin: 0 0 1.1rem;
+}
+
+.wbd-register-output .wbd-item {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--wbd-rule);
+}
+
+.wbd-register-output .wbd-item:last-child {
+    border-bottom: none;
+}
+
+.wbd-register-prov {
+    font-size: 0.78rem;
+    color: var(--wbd-ink-soft);
+    margin-top: 0.5rem;
+}
+
+.wbd-register-prov a {
+    color: var(--wbd-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+}
+
+.wbd-register-prov a:hover {
+    border-bottom-color: var(--wbd-accent);
+}
+
+.wbd-register-loading,
+.wbd-register-locked {
+    font-size: 0.95rem;
+    color: var(--wbd-ink-soft);
+    font-style: italic;
+    padding: 1rem 0;
+}
+
+.wbd-register-footnote {
+    font-size: 0.82rem;
+    color: var(--wbd-ink-soft);
+    margin-top: 2.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--wbd-rule);
+}
+
+.wbd-register-footnote a {
+    color: var(--wbd-accent);
+}
+
+/* The source container is parsed by register.js then discarded from view —
+   [hidden] alone is enough, this just guards against any theme override. */
+#wbd-register-source {
+    display: none !important;
+}

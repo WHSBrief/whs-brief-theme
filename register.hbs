@@ -1,0 +1,85 @@
+{{!< default}}
+{{!-- WHS Brief: jurisdiction register. Not a new content type — reorganises
+the same #brief post content already rendered on /brief/, grouped by
+jurisdiction (.wbd-juris id) instead of by week.
+
+How this works, and why:
+  - Ghost posts are opaque HTML blobs, not structured objects, so there's no
+    native way to query "every NSW item across all weeks." Rather than add a
+    second weekly-maintained data source (more moving parts, and the theme's
+    deploy pipeline needs manual approval per push — see
+    .github/workflows/deploy-to-ghost-pro.yml — so anything requiring a
+    weekly deploy doesn't fit this site's cadence), this page derives the
+    register live, client-side, from content Ghost is already serving.
+  - {{content}} inside the {{#get}}/{{#foreach}} loop below renders each
+    post's full content through Ghost's normal member-gating (same as any
+    other page) — a non-paying visitor gets the usual locked/teaser markup,
+    a paying member gets the full .whs-brief-doc HTML. The register never
+    bypasses this: it only ever reorganises whatever Ghost already decided
+    to send to this specific visitor.
+  - The source posts are rendered into a hidden container; script.js (loaded
+    site-wide, see default.hbs) walks that container, finds every
+    .whs-brief-doc .wbd-juris section per post, and regroups their .wbd-item
+    children by jurisdiction into the visible tabbed view below. See
+    assets/js/register.js for that logic.
+  - Known tradeoff: every post's .wbd-juris sections reuse the same ids
+    (id="national", id="nsw", ...), so this hidden container has duplicate
+    DOM ids across posts — invalid HTML strictly speaking, but harmless here
+    since register.js reads `.id` as a string per post block via
+    querySelectorAll scoped to that block, never via a page-wide
+    getElementById lookup.
+  - limit="26" caps this to roughly the last six months of weekly briefs to
+    keep the page from slowing down as the archive grows. Older material is
+    still reachable via the flat chronological list at /brief/.
+--}}
+
+<main id="site-main" class="site-main outer">
+<div class="inner posts">
+
+    <div class="whs-brief-doc">
+        <div class="wbd-masthead">
+            <p class="wbd-eyebrow">Work Health &amp; Safety — Legislative Register</p>
+            <h1>Browse every change by jurisdiction</h1>
+            <p class="wbd-dek">The same weekly brief content, indexed by state and territory instead of by week, so you can pull up everything relevant to one jurisdiction without paging back through past issues.</p>
+        </div>
+    </div>
+
+    <nav class="wbd-register-tabs" id="wbd-register-tabs" aria-label="Filter by jurisdiction">
+        <button type="button" class="wbd-register-tab is-active" data-jur="all">All</button>
+        <button type="button" class="wbd-register-tab" data-jur="national">National</button>
+        <button type="button" class="wbd-register-tab" data-jur="nsw">NSW</button>
+        <button type="button" class="wbd-register-tab" data-jur="vic">VIC</button>
+        <button type="button" class="wbd-register-tab" data-jur="qld">QLD</button>
+        <button type="button" class="wbd-register-tab" data-jur="wa">WA</button>
+        <button type="button" class="wbd-register-tab" data-jur="sa">SA</button>
+        <button type="button" class="wbd-register-tab" data-jur="tas">TAS</button>
+        <button type="button" class="wbd-register-tab" data-jur="act">ACT</button>
+        <button type="button" class="wbd-register-tab" data-jur="nt">NT</button>
+        <button type="button" class="wbd-register-tab" data-jur="nz">NZ</button>
+        <button type="button" class="wbd-register-tab" data-jur="standards">Standards</button>
+        <button type="button" class="wbd-register-tab" data-jur="courts">Courts</button>
+    </nav>
+
+    <div id="wbd-register-output" class="wbd-register-output">
+        <p class="wbd-register-loading">Loading register…</p>
+    </div>
+
+    <p class="wbd-register-footnote">Showing roughly the last six months of weekly briefs. For anything older, browse the <a href="{{@site.url}}/brief/">full archive</a>.</p>
+
+    {{!-- Hidden source data: full content of recent #brief posts, for
+    register.js to parse. Never shown directly. --}}
+    <div id="wbd-register-source" hidden>
+        {{#get "posts" filter="tag:brief" limit="26" order="published_at desc" include="tags,authors" as |posts|}}
+            {{#foreach posts}}
+                <div class="wbd-register-post"
+                     data-title="{{title}}"
+                     data-url="{{url}}"
+                     data-date="{{date format="DD MMM YYYY"}}">
+                    {{content}}
+                </div>
+            {{/foreach}}
+        {{/get}}
+    </div>
+
+</div>
+</main>

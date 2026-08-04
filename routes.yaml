@@ -16,10 +16,12 @@
 #     tagged #blog or #brief (both got claimed, leaving nothing for the
 #     unfiltered "/" collection to list). Keeping permalinks on a single
 #     collection avoids that trap.
-#   - /blog/ and /brief/ are plain routes (not collections) rendering the
-#     theme's blog.hbs / brief.hbs templates, which independently fetch
-#     posts via {{#get}} with a tag filter — pure browsing views, with no
-#     effect on permalinks or on what the homepage shows.
+#   - /blog/, /brief/ and /register/ are plain routes (not collections)
+#     rendering the theme's blog.hbs / brief.hbs / register.hbs templates,
+#     which independently fetch posts via {{#get}} with a tag filter — pure
+#     browsing views, with no effect on permalinks or on what the homepage
+#     shows. /register/ additionally reorganises #brief posts' content
+#     client-side by jurisdiction instead of by week — see register.hbs.
 #   - The homepage (/) lists ALL posts together (mixed feed) — gated
 #     #brief posts show with Ghost's built-in locked-card styling there,
 #     which is what nudges free readers toward subscribing.
@@ -37,6 +39,9 @@ routes:
 
   /brief/:
     template: brief
+
+  /register/:
+    template: register
 
 collections:
   /:
