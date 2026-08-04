@@ -2,11 +2,21 @@
 {{!-- WHS Brief: custom route (not a collection) rendering only #brief-tagged
 posts via {{#get}}. Posts still get the site's normal /{slug}/ permalink
 (from the unfiltered "/" collection in routes.yaml) — this page is purely a
-filtered browsing view, not a permalink prefix. See routes.yaml. --}}
+filtered browsing view, not a permalink prefix. See routes.yaml.
+
+Paying members (@member.paid) skip the generic masthead/Subscribe banner
+entirely and see the current week's full brief embedded directly at the
+top instead, with older weeks still listed as cards below (the current
+week is excluded from that list so it isn't shown twice). Anonymous/free
+visitors keep the original masthead + Subscribe CTA + full card list
+exactly as before, current week included as Ghost's normal locked card —
+that banner is still the primary conversion path for new subscribers, so
+it's deliberately left untouched for them. --}}
 
 <main id="site-main" class="site-main outer">
 <div class="inner posts">
 
+    {{#unless @member.paid}}
     <div class="whs-brief-doc">
         <div class="wbd-masthead">
             <p class="wbd-eyebrow">Work Health &amp; Safety — Weekly Legislative Brief</p>
@@ -18,16 +28,33 @@ filtered browsing view, not a permalink prefix. See routes.yaml. --}}
             <a class="gh-head-button" href="#/portal/signup" data-portal="signup">{{t "Subscribe"}}</a>
         </div>
     </div>
+    {{/unless}}
 
-    <div class="post-feed">
-        {{#get "posts" filter="tag:brief" limit="all" include="tags,authors" as |posts|}}
+    {{#get "posts" filter="tag:brief" limit="all" include="tags,authors" as |posts|}}
+
+        {{#if @member.paid}}
+            {{#with posts.[0]}}
+                <article class="whs-brief-current">
+                    {{content}}
+                </article>
+            {{/with}}
+        {{/if}}
+
+        <div class="post-feed">
             {{#foreach posts}}
-                {{> "post-card"}}
+                {{#if @first}}
+                    {{#unless @member.paid}}
+                        {{> "post-card"}}
+                    {{/unless}}
+                {{else}}
+                    {{> "post-card"}}
+                {{/if}}
             {{else}}
                 <p class="none">No posts yet.</p>
             {{/foreach}}
-        {{/get}}
-    </div>
+        </div>
+
+    {{/get}}
 
 </div>
 </main>
