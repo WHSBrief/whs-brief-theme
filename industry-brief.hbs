@@ -1,0 +1,61 @@
+{{!< default}}
+{{!-- WHS Brief: custom route (not a collection) rendering only #industry-brief
+tagged posts via {{#get}}. Sibling page to brief.hbs (the weekly
+jurisdiction brief) — same structure and same paying-member inline-embed
+behaviour, just a different tag and monthly cadence instead of weekly.
+Posts still get the site's normal /{slug}/ permalink (from the unfiltered
+"/" collection in routes.yaml) — this page is purely a filtered browsing
+view, not a permalink prefix. See routes.yaml.
+
+Paying members (@member.paid) skip the generic masthead/Subscribe banner
+entirely and see the current month's full brief embedded directly at the
+top instead, with older months still listed as cards below (the current
+month is excluded from that list so it isn't shown twice). Anonymous/free
+visitors keep the original masthead + Subscribe CTA + full card list
+exactly as before, current month included as Ghost's normal locked card. --}}
+
+<main id="site-main" class="site-main outer">
+<div class="inner posts">
+
+    {{#unless @member.paid}}
+    <div class="whs-brief-doc">
+        <div class="wbd-masthead">
+            <p class="wbd-eyebrow">Work Health &amp; Safety — Monthly Industry Brief</p>
+            <h1>WHS &amp; OHS legislative changes by industry</h1>
+            <p class="wbd-dek">Amendments, commencements and proposals relevant to construction, mining and resources, manufacturing, agriculture and forestry, transport and logistics, health care and aged care, and utilities, cutting across every Australian jurisdiction.</p>
+        </div>
+        <div class="whs-brief-intro">
+            <p>Every month: WHS/OHS legislative change organised by industry instead of by state, so you can jump straight to what's relevant to your sector, each item sourced and linked back to the regulator, court record or legal publisher it came from.</p>
+            <a class="gh-head-button" href="#/portal/signup" data-portal="signup">{{t "Subscribe"}}</a>
+        </div>
+    </div>
+    {{/unless}}
+
+    {{#get "posts" filter="tag:industry-brief" limit="all" include="tags,authors" as |posts|}}
+
+        {{#if @member.paid}}
+            {{#with posts.[0]}}
+                <article class="whs-brief-current">
+                    {{content}}
+                </article>
+            {{/with}}
+        {{/if}}
+
+        <div class="post-feed">
+            {{#foreach posts}}
+                {{#if @first}}
+                    {{#unless @member.paid}}
+                        {{> "post-card"}}
+                    {{/unless}}
+                {{else}}
+                    {{> "post-card"}}
+                {{/if}}
+            {{else}}
+                <p class="none">No posts yet.</p>
+            {{/foreach}}
+        </div>
+
+    {{/get}}
+
+</div>
+</main>
