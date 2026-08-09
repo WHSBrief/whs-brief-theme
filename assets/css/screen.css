@@ -3226,6 +3226,26 @@ html.dark-mode .whs-ad-placeholder {
     flex-shrink: 0;
 }
 
+.wbd-subscribe-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.wbd-invoice-note {
+    margin: 0;
+    font-size: 1.3rem;
+    color: var(--color-secondary-text);
+    text-align: center;
+}
+
+.wbd-invoice-note a {
+    color: inherit;
+    text-decoration: underline;
+}
+
 .whs-brief-current {
     display: block;
     padding-bottom: 32px;
