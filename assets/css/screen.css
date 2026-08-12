@@ -3566,21 +3566,23 @@ html.dark-mode .whs-brief-doc {
 
 /* Jurisdiction register (/register/) — reuses the .whs-brief-doc palette
    and .wbd-item/.wbd-tag styling; the tab bar and provenance line below
-   are the only genuinely new UI. See register.hbs and assets/js/register.js. */
+   are the only genuinely new UI. See register.hbs and assets/js/register.js.
+   Tab styling matches nav.wbd-toc a exactly (the jump-nav pills used on the
+   WHS Brief / Industry Brief pages), so this filter row reads as the same
+   UI element site-wide, not a bespoke look. */
 .wbd-register-tabs {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    margin: 1.6rem 0 2.2rem;
+    gap: 0.8rem;
+    margin: 1.4rem 0 2.4rem;
 }
 
 .wbd-register-tab {
-    font: 600 2.3rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--wbd-paper-raised);
+    font-size: 2rem;
+    background: transparent;
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.8rem 1.8rem;
+    padding: 0.7rem 1.6rem;
     border-radius: 4px;
     cursor: pointer;
     letter-spacing: 0.02em;
@@ -3748,17 +3750,16 @@ html.dark-mode .whs-brief-doc {
 .wbd-tracker-filters {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    margin: 1.6rem 0 2.2rem;
+    gap: 0.8rem;
+    margin: 1.4rem 0 2.4rem;
 }
 
 .wbd-tracker-filter {
-    font: 600 2.3rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: var(--wbd-paper-raised);
+    font-size: 2rem;
+    background: transparent;
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.8rem 1.8rem;
+    padding: 0.7rem 1.6rem;
     border-radius: 4px;
     text-decoration: none;
     letter-spacing: 0.02em;
