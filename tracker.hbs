@@ -34,37 +34,46 @@ How this works:
             <h1>Every WHS/OHS legislative change, tracked</h1>
             <p class="wbd-dek">Every Act, Regulation, Code of practice and Standard change we've covered in the last 12 months across Australia and New Zealand. Headline and date only — for the full story on any item, including what it means and what to do about it, see the weekly brief.</p>
         </div>
-    </div>
 
-    <nav class="wbd-tracker-filters" aria-label="Filter by jurisdiction">
-        <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter is-active" data-jur="all">All</a>
-        <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="national">National</a>
-        <a href="{{@site.url}}/jurisdiction/nsw/" class="wbd-tracker-filter">NSW</a>
-        <a href="{{@site.url}}/jurisdiction/vic/" class="wbd-tracker-filter">VIC</a>
-        <a href="{{@site.url}}/jurisdiction/qld/" class="wbd-tracker-filter">QLD</a>
-        <a href="{{@site.url}}/jurisdiction/wa/" class="wbd-tracker-filter">WA</a>
-        <a href="{{@site.url}}/jurisdiction/sa/" class="wbd-tracker-filter">SA</a>
-        <a href="{{@site.url}}/jurisdiction/tas/" class="wbd-tracker-filter">TAS</a>
-        <a href="{{@site.url}}/jurisdiction/act/" class="wbd-tracker-filter">ACT</a>
-        <a href="{{@site.url}}/jurisdiction/nt/" class="wbd-tracker-filter">NT</a>
-        <a href="{{@site.url}}/jurisdiction/nz/" class="wbd-tracker-filter">NZ</a>
-        <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="standards">Standards</a>
-    </nav>
+        {{!-- Everything below must stay INSIDE this .whs-brief-doc wrapper,
+        not after it closes — the --wbd-* custom properties (--wbd-rule,
+        --wbd-ink-soft, --wbd-accent, etc.) used throughout this page's CSS
+        are scoped to .whs-brief-doc, not :root (see screen.css ~line 3265).
+        Outside this wrapper those var() references resolve to nothing,
+        which silently zeroes out anything depending on them (e.g. border
+        computes to "0px none" since an invalid var() falls back to the
+        property's initial value) — this is what left the filter pills with
+        no visible border before this was caught. --}}
+        <nav class="wbd-tracker-filters" aria-label="Filter by jurisdiction">
+            <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter is-active" data-jur="all">All</a>
+            <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="national">National</a>
+            <a href="{{@site.url}}/jurisdiction/nsw/" class="wbd-tracker-filter">NSW</a>
+            <a href="{{@site.url}}/jurisdiction/vic/" class="wbd-tracker-filter">VIC</a>
+            <a href="{{@site.url}}/jurisdiction/qld/" class="wbd-tracker-filter">QLD</a>
+            <a href="{{@site.url}}/jurisdiction/wa/" class="wbd-tracker-filter">WA</a>
+            <a href="{{@site.url}}/jurisdiction/sa/" class="wbd-tracker-filter">SA</a>
+            <a href="{{@site.url}}/jurisdiction/tas/" class="wbd-tracker-filter">TAS</a>
+            <a href="{{@site.url}}/jurisdiction/act/" class="wbd-tracker-filter">ACT</a>
+            <a href="{{@site.url}}/jurisdiction/nt/" class="wbd-tracker-filter">NT</a>
+            <a href="{{@site.url}}/jurisdiction/nz/" class="wbd-tracker-filter">NZ</a>
+            <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="standards">Standards</a>
+        </nav>
 
-    <div id="wbd-tracker-output" class="wbd-tracker-output">
-        <p class="wbd-tracker-loading">Loading tracker…</p>
-    </div>
+        <div id="wbd-tracker-output" class="wbd-tracker-output">
+            <p class="wbd-tracker-loading">Loading tracker…</p>
+        </div>
 
-    <p class="wbd-register-footnote">Showing changes from roughly the last 12 months. Want the analysis, not just the headline? <a href="{{@site.url}}/brief/">Subscribe to the full weekly brief</a>.</p>
+        <p class="wbd-register-footnote">Showing changes from roughly the last 12 months. Want the analysis, not just the headline? <a href="{{@site.url}}/brief/">Subscribe to the full weekly brief</a>.</p>
 
-    {{!-- Hidden source data: full content of recent #tracker posts, for
-    tracker.js to parse. Never shown directly. --}}
-    <div id="wbd-tracker-source" hidden>
-        {{#get "posts" filter="tag:tracker" limit="52" order="published_at desc" as |posts|}}
-            {{#foreach posts}}
-                {{content}}
-            {{/foreach}}
-        {{/get}}
+        {{!-- Hidden source data: full content of recent #tracker posts, for
+        tracker.js to parse. Never shown directly. --}}
+        <div id="wbd-tracker-source" hidden>
+            {{#get "posts" filter="tag:tracker" limit="52" order="published_at desc" as |posts|}}
+                {{#foreach posts}}
+                    {{content}}
+                {{/foreach}}
+            {{/get}}
+        </div>
     </div>
 
 </div>
