@@ -74,14 +74,22 @@ How this works:
         <h2 class="wbd-tracker-subhead">Recently added</h2>
         <div id="wbd-tracker-preview" class="wbd-tracker-preview"></div>
 
+        {{!-- The clipped preview and the CTA card are separate elements in
+        normal document flow, not one absolutely-positioned over the other —
+        an earlier version put the CTA inside .wbd-tracker-gated with
+        position:absolute, and its real rendered height (heading + body +
+        button) exceeded the fade zone, so it overlapped directly on top of
+        still-readable list text instead of covering it. Keeping them as
+        siblings makes that impossible regardless of how tall the CTA copy
+        or any given headline ends up being. --}}
         <div class="wbd-tracker-gated" id="wbd-tracker-gated">
             <div id="wbd-tracker-output" class="wbd-tracker-output"></div>
             <div class="wbd-tracker-fade"></div>
-            <div class="wbd-tracker-cta">
-                <p class="wbd-tracker-cta-head">See every tracked change</p>
-                <p class="wbd-tracker-cta-body">Subscribe to browse the complete, filterable list across all nine Australian jurisdictions, New Zealand and Standards, not just the five most recent.</p>
-                <a class="wbd-tracker-cta-btn" data-portal="signup">Subscribe</a>
-            </div>
+        </div>
+        <div class="wbd-tracker-cta">
+            <p class="wbd-tracker-cta-head">See every tracked change</p>
+            <p class="wbd-tracker-cta-body">Subscribe to browse the complete, filterable list across all nine Australian jurisdictions, New Zealand and Standards, not just the five most recent.</p>
+            <a class="wbd-tracker-cta-btn" data-portal="signup">Subscribe</a>
         </div>
 
         <p class="wbd-register-footnote">Want the analysis, not just the headline? <a href="{{@site.url}}/brief/">Subscribe to the full weekly brief</a>.</p>

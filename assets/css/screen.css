@@ -3954,7 +3954,7 @@ html.dark-mode .whs-brief-doc {
 
 .wbd-tracker-gated {
     position: relative;
-    max-height: 22rem;
+    max-height: 4rem;
     overflow: hidden;
     margin-top: 1rem;
 }
@@ -3963,19 +3963,23 @@ html.dark-mode .whs-brief-doc {
     position: absolute;
     left: 0;
     right: 0;
+    top: 0;
     bottom: 0;
-    height: 12rem;
-    background: linear-gradient(to bottom, transparent, var(--wbd-paper) 85%);
+    background: linear-gradient(to bottom, transparent, var(--wbd-paper) 90%);
     pointer-events: none;
 }
 
+/* .wbd-tracker-cta is a normal-flow card below .wbd-tracker-gated, not
+   layered on top of it — see the comment in tracker.hbs for why. Its height
+   can vary (copy length, font size at different viewports) without ever
+   overlapping the clipped list above it. */
 .wbd-tracker-cta {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0.5rem;
     text-align: center;
-    padding: 1rem 1.5rem 0;
+    background: var(--wbd-paper-raised);
+    border: 1px solid var(--wbd-rule);
+    border-radius: 8px;
+    padding: 1.6rem 1.5rem;
+    margin-top: 0.8rem;
 }
 
 .wbd-tracker-cta-head {

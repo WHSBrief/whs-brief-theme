@@ -136,6 +136,10 @@
         if (gatedEl) {
             gatedEl.style.display = 'none';
         }
+        var ctaEl = document.querySelector('.wbd-tracker-cta');
+        if (ctaEl) {
+            ctaEl.style.display = 'none';
+        }
         outputEl.innerHTML = '<p class="wbd-none">No tracked changes yet' + (isJurisdictionPage ? ' for this jurisdiction' : '') + '. Check back after the next weekly brief.</p>';
         return;
     }
@@ -206,10 +210,14 @@
 
     var rest = list.slice(PREVIEW_COUNT);
     var gatedWrap = document.getElementById('wbd-tracker-gated');
-    var ctaHead = gatedWrap ? gatedWrap.querySelector('.wbd-tracker-cta-head') : null;
+    var ctaWrap = document.querySelector('.wbd-tracker-cta');
+    var ctaHead = ctaWrap ? ctaWrap.querySelector('.wbd-tracker-cta-head') : null;
     if (rest.length === 0) {
         if (gatedWrap) {
             gatedWrap.style.display = 'none';
+        }
+        if (ctaWrap) {
+            ctaWrap.style.display = 'none';
         }
     } else {
         var restFrag = document.createDocumentFragment();
