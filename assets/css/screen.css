@@ -3951,6 +3951,18 @@ html.dark-mode .whs-brief-doc {
     margin-top: 1rem;
 }
 
+/* Signed-in members (see tracker.hbs, checked server-side via @member) get
+   this class instead, so the list is never actually clipped for them, not
+   even for a moment before tracker.js would otherwise resize it. */
+.wbd-tracker-gated-open {
+    max-height: none;
+    overflow: visible;
+}
+
+.wbd-tracker-gated-open .wbd-tracker-fade {
+    display: none;
+}
+
 .wbd-tracker-fade {
     position: absolute;
     left: 0;

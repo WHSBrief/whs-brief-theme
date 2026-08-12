@@ -1,15 +1,18 @@
 // WHS Brief public Change Tracker (/tracker/ and /jurisdiction/{slug}/).
 // Flattens .wbd-tracker-item entries from recent #tracker posts (see
 // tracker.hbs / jurisdiction.hbs) into a single, newest-first list capped to
-// the last 12 months. Unlike register.js, no member-gating check is needed
-// here — #tracker posts are always public, so {{content}} always renders in
-// full. No-ops on every other page.
+// the last 12 months. #tracker posts themselves are never Ghost-gated
+// ({{content}} always renders in full for every visitor at the post level),
+// but /tracker/'s own 5-item preview + fade-gated remainder IS conditional
+// on membership — see the memberSignedIn check below, and tracker.hbs's
+// comment for why that matters (a signed-in member seeing the same gate as
+// an anonymous visitor was a real bug caught after shipping this).
 //
 // /tracker/ additionally splits the list into a snapshot (aggregate counts),
-// a 5-item preview, and the remainder inside a fade-gated wrapper with a
-// subscribe CTA — see tracker.hbs's comment for why. /jurisdiction/{slug}/
-// pages don't have a #wbd-tracker-snapshot element, so that branch never
-// runs there and they keep rendering the full open list as before.
+// a preview, and (anonymous visitors only) the remainder inside a
+// fade-gated wrapper with a subscribe CTA. /jurisdiction/{slug}/ pages
+// don't have a #wbd-tracker-snapshot element, so that branch never runs
+// there and they keep rendering the full open list as before.
 (function() {
     var source = document.getElementById('wbd-tracker-source');
     var isJurisdictionPage = !!window.location.pathname.match(/^\/jurisdiction\/([a-z]+)\/?/);
@@ -17,6 +20,9 @@
     if (!source || !outputEl) {
         return;
     }
+
+    var briefDoc = document.querySelector('.whs-brief-doc');
+    var memberSignedIn = !!briefDoc && briefDoc.getAttribute('data-member') === 'true';
 
     var labels = {
         national: 'National',
@@ -198,7 +204,9 @@
             + '<div class="wbd-tracker-chips">' + chipsHtml + '</div>';
     }
 
-    var PREVIEW_COUNT = 5;
+    // Signed-in members get everything in the open preview, nothing left
+    // for the gated remainder (list.slice(list.length) below is just []).
+    var PREVIEW_COUNT = memberSignedIn ? list.length : 5;
     var previewWrap = document.getElementById('wbd-tracker-preview');
     if (previewWrap) {
         var previewFrag = document.createDocumentFragment();
