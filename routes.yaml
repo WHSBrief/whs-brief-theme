@@ -16,14 +16,23 @@
 #     tagged #blog or #brief (both got claimed, leaving nothing for the
 #     unfiltered "/" collection to list). Keeping permalinks on a single
 #     collection avoids that trap.
-#   - /blog/, /brief/, /register/ and /industry-brief/ are plain routes (not
-#     collections) rendering the theme's blog.hbs / brief.hbs / register.hbs /
-#     industry-brief.hbs templates, which independently fetch posts via
-#     {{#get}} with a tag filter — pure browsing views, with no effect on
-#     permalinks or on what the homepage shows. /register/ additionally
-#     reorganises #brief posts' content client-side by jurisdiction instead
-#     of by week — see register.hbs. /industry-brief/ is the sibling monthly
-#     brief tagged #industry-brief instead of #brief — see industry-brief.hbs.
+#   - /blog/, /brief/, /register/, /industry-brief/ and /tracker/ are plain
+#     routes (not collections) rendering the theme's blog.hbs / brief.hbs /
+#     register.hbs / industry-brief.hbs / tracker.hbs templates, which
+#     independently fetch posts via {{#get}} with a tag filter — pure
+#     browsing views, with no effect on permalinks or on what the homepage
+#     shows. /register/ additionally reorganises #brief posts' content
+#     client-side by jurisdiction instead of by week — see register.hbs.
+#     /industry-brief/ is the sibling monthly brief tagged #industry-brief
+#     instead of #brief — see industry-brief.hbs. /tracker/ is the PUBLIC
+#     (not paid-gated) headline-only change tracker, sourced from #tracker-
+#     tagged posts, not #brief — see tracker.hbs. Do not confuse it with
+#     /register/, which is paid-only and shows full item content.
+#   - /jurisdiction/{slug}/ (nsw, vic, qld, wa, sa, tas, act, nt, nz) are 9
+#     more plain routes, all sharing one jurisdiction.hbs template — the page
+#     itself reads which slug it's on from the URL client-side, so there's no
+#     per-jurisdiction template. Same #tracker-tagged, public data source as
+#     /tracker/, just pre-filtered to one jurisdiction.
 #   - The homepage (/) lists ALL posts together (mixed feed) — gated
 #     #brief posts show with Ghost's built-in locked-card styling there,
 #     which is what nudges free readers toward subscribing.
@@ -32,8 +41,12 @@
 # in the editor's Access setting — routes.yaml only controls URL structure
 # and which posts appear on which listing pages, not who can read them.
 #
-# Nav links to /blog/ and /brief/ are added separately in
+# Nav links to /blog/, /brief/ and /tracker/ are added separately in
 # Ghost Admin > Design > Navigation (not part of routes.yaml).
+#
+# Like the rest of this file, the new /tracker/ and /jurisdiction/*/ routes
+# only take effect once this file is re-uploaded at Ghost Admin > Settings >
+# Advanced > Routes — pushing the theme repo does not do this automatically.
 
 routes:
   /blog/:
@@ -47,6 +60,36 @@ routes:
 
   /industry-brief/:
     template: industry-brief
+
+  /tracker/:
+    template: tracker
+
+  /jurisdiction/nsw/:
+    template: jurisdiction
+
+  /jurisdiction/vic/:
+    template: jurisdiction
+
+  /jurisdiction/qld/:
+    template: jurisdiction
+
+  /jurisdiction/wa/:
+    template: jurisdiction
+
+  /jurisdiction/sa/:
+    template: jurisdiction
+
+  /jurisdiction/tas/:
+    template: jurisdiction
+
+  /jurisdiction/act/:
+    template: jurisdiction
+
+  /jurisdiction/nt/:
+    template: jurisdiction
+
+  /jurisdiction/nz/:
+    template: jurisdiction
 
 collections:
   /:

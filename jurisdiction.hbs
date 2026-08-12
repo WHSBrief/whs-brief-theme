@@ -1,0 +1,58 @@
+{{!< default}}
+{{!-- WHS Brief: public per-jurisdiction change page (/jurisdiction/{slug}/).
+
+One template serves all 9 routes (nsw, vic, qld, wa, sa, tas, act, nt, nz —
+see routes.yaml). There's no per-jurisdiction .hbs file: the page reads which
+slug it's on from the URL itself (see assets/js/tracker.js) and filters the
+same public #tracker-post data /tracker/ uses down to that one jurisdiction.
+The <h1>/<p> below start with generic placeholder text that tracker.js
+replaces once it knows the slug — this keeps the template itself dumb and
+avoids nine near-duplicate files that would need edits in nine places.
+
+Same public, headline-only, no-analysis content as /tracker/ — see
+tracker.hbs's own comment for why (not to be confused with the paid,
+full-content /register/ page).
+--}}
+
+<main id="site-main" class="site-main outer">
+<div class="inner posts">
+
+    <div class="whs-brief-doc">
+        <div class="wbd-masthead">
+            <p class="wbd-eyebrow">Work Health &amp; Safety — Change Tracker</p>
+            <h1 id="wbd-jur-heading">Loading…</h1>
+            <p class="wbd-dek" id="wbd-jur-dek">Every WHS/OHS legislative change we've covered in the last 12 months. Headline and date only — for the full story on any item, see the weekly brief.</p>
+        </div>
+    </div>
+
+    <nav class="wbd-tracker-filters" aria-label="Filter by jurisdiction">
+        <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter">All</a>
+        <a href="{{@site.url}}/jurisdiction/nsw/" class="wbd-tracker-filter">NSW</a>
+        <a href="{{@site.url}}/jurisdiction/vic/" class="wbd-tracker-filter">VIC</a>
+        <a href="{{@site.url}}/jurisdiction/qld/" class="wbd-tracker-filter">QLD</a>
+        <a href="{{@site.url}}/jurisdiction/wa/" class="wbd-tracker-filter">WA</a>
+        <a href="{{@site.url}}/jurisdiction/sa/" class="wbd-tracker-filter">SA</a>
+        <a href="{{@site.url}}/jurisdiction/tas/" class="wbd-tracker-filter">TAS</a>
+        <a href="{{@site.url}}/jurisdiction/act/" class="wbd-tracker-filter">ACT</a>
+        <a href="{{@site.url}}/jurisdiction/nt/" class="wbd-tracker-filter">NT</a>
+        <a href="{{@site.url}}/jurisdiction/nz/" class="wbd-tracker-filter">NZ</a>
+    </nav>
+
+    <div id="wbd-tracker-output" class="wbd-tracker-output">
+        <p class="wbd-tracker-loading">Loading tracker…</p>
+    </div>
+
+    <p class="wbd-register-footnote">Showing changes from roughly the last 12 months. Want the analysis, not just the headline? <a href="{{@site.url}}/brief/">Subscribe to the full weekly brief</a>.</p>
+
+    {{!-- Hidden source data: full content of recent #tracker posts, for
+    tracker.js to parse. Never shown directly. --}}
+    <div id="wbd-tracker-source" hidden>
+        {{#get "posts" filter="tag:tracker" limit="52" order="published_at desc" as |posts|}}
+            {{#foreach posts}}
+                {{content}}
+            {{/foreach}}
+        {{/get}}
+    </div>
+
+</div>
+</main>

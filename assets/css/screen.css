@@ -3739,3 +3739,122 @@ html.dark-mode .whs-brief-doc {
 #wbd-register-source {
     display: none !important;
 }
+
+/* Public Change Tracker (/tracker/ and /jurisdiction/{slug}/) — reuses the
+   .whs-brief-doc palette and .wbd-tag styling, restated here for the same
+   reason as the register block above: .wbd-tracker-output isn't nested
+   inside a .whs-brief-doc wrapper, so the .whs-brief-doc-scoped rules don't
+   reach it. See tracker.hbs, jurisdiction.hbs and assets/js/tracker.js. */
+.wbd-tracker-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1.6rem 0 2.2rem;
+}
+
+.wbd-tracker-filter {
+    font: 600 1.15rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--wbd-paper-raised);
+    color: var(--wbd-ink-soft);
+    border: 1px solid var(--wbd-rule);
+    padding: 0.55rem 1.1rem;
+    border-radius: 4px;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+}
+
+.wbd-tracker-filter:hover {
+    border-color: var(--wbd-accent);
+    color: var(--wbd-accent);
+}
+
+.wbd-tracker-filter.is-active {
+    background: var(--wbd-accent);
+    border-color: var(--wbd-accent);
+    color: var(--wbd-paper-raised);
+}
+
+.wbd-tracker-row {
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--wbd-rule);
+}
+
+.wbd-tracker-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.wbd-tracker-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.3rem;
+}
+
+.wbd-tracker-jur {
+    font: 600 1.05rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--wbd-accent);
+}
+
+.wbd-tracker-output .wbd-tag {
+    font: 600 1.05rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.36rem 0.8rem;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+
+.wbd-tracker-output .wbd-tag.wbd-force {
+    color: var(--wbd-force);
+    background: var(--wbd-force-bg);
+}
+
+.wbd-tracker-output .wbd-tag.wbd-upcoming {
+    color: var(--wbd-upcoming);
+    background: var(--wbd-upcoming-bg);
+}
+
+.wbd-tracker-output .wbd-tag.wbd-proposed {
+    color: var(--wbd-proposed);
+    background: var(--wbd-proposed-bg);
+}
+
+.wbd-tracker-date {
+    font-size: 1.15rem;
+    color: var(--wbd-ink-soft);
+    font-variant-numeric: tabular-nums;
+}
+
+.wbd-tracker-headline {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.wbd-tracker-headline a {
+    color: var(--wbd-ink);
+    text-decoration: none;
+}
+
+.wbd-tracker-headline a:hover {
+    text-decoration: underline;
+}
+
+.wbd-tracker-loading,
+.wbd-tracker-output .wbd-none {
+    font-size: 1.35rem;
+    color: var(--wbd-ink-soft);
+    font-style: italic;
+    padding: 0.4rem 0;
+}
+
+/* Parsed by tracker.js then discarded from view, same guard rationale as
+   #wbd-register-source above. */
+#wbd-tracker-source {
+    display: none !important;
+}
