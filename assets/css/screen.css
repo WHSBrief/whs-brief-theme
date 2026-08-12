@@ -3754,11 +3754,11 @@ html.dark-mode .whs-brief-doc {
 }
 
 .wbd-tracker-filter {
-    font: 600 1.15rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font: 600 2.3rem/1 -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: var(--wbd-paper-raised);
     color: var(--wbd-ink-soft);
     border: 1px solid var(--wbd-rule);
-    padding: 0.55rem 1.1rem;
+    padding: 0.8rem 1.8rem;
     border-radius: 4px;
     text-decoration: none;
     letter-spacing: 0.02em;
