@@ -231,31 +231,8 @@
             ctaHead.textContent = 'See all ' + list.length + ' tracked changes';
         }
     }
-
-    var filterNav = document.querySelector('.wbd-tracker-filters');
-    if (filterNav) {
-        filterNav.addEventListener('click', function(e) {
-            var link = e.target.closest('.wbd-tracker-filter');
-            if (!link || !filterNav.contains(link)) {
-                return;
-            }
-            var jur = link.getAttribute('data-jur');
-            if (!jur) {
-                return; // real link to its own /jurisdiction/{slug}/ page, let it navigate
-            }
-            e.preventDefault();
-
-            var allFilters = filterNav.querySelectorAll('.wbd-tracker-filter');
-            for (var t = 0; t < allFilters.length; t++) {
-                allFilters[t].classList.remove('is-active');
-            }
-            link.classList.add('is-active');
-
-            var rows = document.querySelectorAll('#wbd-tracker-preview .wbd-tracker-row, #wbd-tracker-output .wbd-tracker-row');
-            for (var r = 0; r < rows.length; r++) {
-                var rowMatches = (jur === 'all' || rows[r].getAttribute('data-jur') === jur);
-                rows[r].style.display = rowMatches ? '' : 'none';
-            }
-        });
-    }
+    // No filter-nav click handler here on purpose — /tracker/ no longer has
+    // a .wbd-tracker-filters row (see tracker.hbs's comment for why). This
+    // file still handles jurisdiction.hbs's own is-active highlighting
+    // above, since that page's nav is real navigation, not this.
 })();

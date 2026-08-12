@@ -29,10 +29,15 @@ How this works:
     snapshot stat tiles and jurisdiction chips, the first 5 items render in
     full into #wbd-tracker-preview, and everything after that renders into
     #wbd-tracker-output inside the fade-gated wrapper.
-  - The jurisdiction filter row below links to the 9 real /jurisdiction/{slug}/
-    pages (crawlable, not JS-only) for SEO, plus a couple of JS-only filters
-    (National, Standards) that don't have their own dedicated URL since the
-    automation brief only asked for one page per state/territory and NZ.
+  - There is deliberately NO jurisdiction filter/nav row on this page anymore
+    (an earlier version had one). Most of those links pointed straight at the
+    9 /jurisdiction/{slug}/ pages, which show their full list completely in
+    the open with no gate at all — so a visitor could click straight through
+    a "filter" and see everything for free, defeating the whole point of the
+    gate on this page. The "By jurisdiction" chips inside the snapshot below
+    give the same at-a-glance breakdown (with real counts) without being
+    clickable escape hatches. If jurisdiction pages get their own gate later,
+    reintroducing real links here would make sense again; until then, don't.
 --}}
 
 <main id="site-main" class="site-main outer">
@@ -50,20 +55,6 @@ How this works:
         --wbd-ink-soft, --wbd-accent, etc.) used throughout this page's CSS
         are scoped to .whs-brief-doc, not :root (see screen.css ~line 3265).
         Outside this wrapper those var() references resolve to nothing. --}}
-        <nav class="wbd-tracker-filters" aria-label="Filter by jurisdiction">
-            <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter is-active" data-jur="all">All</a>
-            <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="national">National</a>
-            <a href="{{@site.url}}/jurisdiction/nsw/" class="wbd-tracker-filter">NSW</a>
-            <a href="{{@site.url}}/jurisdiction/vic/" class="wbd-tracker-filter">VIC</a>
-            <a href="{{@site.url}}/jurisdiction/qld/" class="wbd-tracker-filter">QLD</a>
-            <a href="{{@site.url}}/jurisdiction/wa/" class="wbd-tracker-filter">WA</a>
-            <a href="{{@site.url}}/jurisdiction/sa/" class="wbd-tracker-filter">SA</a>
-            <a href="{{@site.url}}/jurisdiction/tas/" class="wbd-tracker-filter">TAS</a>
-            <a href="{{@site.url}}/jurisdiction/act/" class="wbd-tracker-filter">ACT</a>
-            <a href="{{@site.url}}/jurisdiction/nt/" class="wbd-tracker-filter">NT</a>
-            <a href="{{@site.url}}/jurisdiction/nz/" class="wbd-tracker-filter">NZ</a>
-            <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="standards">Standards</a>
-        </nav>
 
         {{!-- Live snapshot: stat tiles + jurisdiction chips, computed by
         tracker.js from the same data as everything else on this page. --}}
@@ -88,7 +79,7 @@ How this works:
         </div>
         <div class="wbd-tracker-cta">
             <p class="wbd-tracker-cta-head">See every tracked change</p>
-            <p class="wbd-tracker-cta-body">Subscribe to browse the complete, filterable list across all nine Australian jurisdictions, New Zealand and Standards, not just the five most recent.</p>
+            <p class="wbd-tracker-cta-body">Subscribe to browse the complete list across all nine Australian jurisdictions, New Zealand and Standards, not just the five most recent.</p>
             <a class="wbd-tracker-cta-btn" data-portal="signup">Subscribe</a>
         </div>
 
