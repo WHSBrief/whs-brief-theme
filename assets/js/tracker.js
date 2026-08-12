@@ -4,10 +4,17 @@
 // the last 12 months. Unlike register.js, no member-gating check is needed
 // here — #tracker posts are always public, so {{content}} always renders in
 // full. No-ops on every other page.
+//
+// /tracker/ additionally splits the list into a snapshot (aggregate counts),
+// a 5-item preview, and the remainder inside a fade-gated wrapper with a
+// subscribe CTA — see tracker.hbs's comment for why. /jurisdiction/{slug}/
+// pages don't have a #wbd-tracker-snapshot element, so that branch never
+// runs there and they keep rendering the full open list as before.
 (function() {
     var source = document.getElementById('wbd-tracker-source');
-    var output = document.getElementById('wbd-tracker-output');
-    if (!source || !output) {
+    var isJurisdictionPage = !!window.location.pathname.match(/^\/jurisdiction\/([a-z]+)\/?/);
+    var outputEl = document.getElementById('wbd-tracker-output');
+    if (!source || !outputEl) {
         return;
     }
 
@@ -31,7 +38,6 @@
     };
 
     var jurMatch = window.location.pathname.match(/^\/jurisdiction\/([a-z]+)\/?/);
-    var isJurisdictionPage = !!jurMatch;
     var pageJur = isJurisdictionPage ? jurMatch[1] : null;
 
     if (isJurisdictionPage) {
@@ -80,14 +86,7 @@
         return tb - ta;
     });
 
-    if (list.length === 0) {
-        output.innerHTML = '<p class="wbd-none">No tracked changes yet' + (isJurisdictionPage ? ' for this jurisdiction' : '') + '. Check back after the next weekly brief.</p>';
-        return;
-    }
-
-    var frag = document.createDocumentFragment();
-    for (i = 0; i < list.length; i++) {
-        var entry = list[i];
+    function buildRow(entry) {
         var row = document.createElement('div');
         row.className = 'wbd-tracker-row';
         row.setAttribute('data-jur', entry.jur);
@@ -121,42 +120,133 @@
 
         row.appendChild(meta);
         row.appendChild(headline);
-        frag.appendChild(row);
+        return row;
     }
 
-    output.innerHTML = '';
-    output.appendChild(frag);
-
-    // Only /tracker/ has JS-only filters (All / National / Standards) mixed
-    // in among its real links to the 9 jurisdiction pages. /jurisdiction/
-    // pages only ever show real links (no data-jur attribute), so they just
-    // navigate normally and never reach this listener.
-    if (!isJurisdictionPage) {
-        var filterNav = document.querySelector('.wbd-tracker-filters');
-        if (filterNav) {
-            filterNav.addEventListener('click', function(e) {
-                var link = e.target.closest('.wbd-tracker-filter');
-                if (!link || !filterNav.contains(link)) {
-                    return;
-                }
-                var jur = link.getAttribute('data-jur');
-                if (!jur) {
-                    return; // real link to its own /jurisdiction/{slug}/ page, let it navigate
-                }
-                e.preventDefault();
-
-                var allFilters = filterNav.querySelectorAll('.wbd-tracker-filter');
-                for (var t = 0; t < allFilters.length; t++) {
-                    allFilters[t].classList.remove('is-active');
-                }
-                link.classList.add('is-active');
-
-                var rows = output.querySelectorAll('.wbd-tracker-row');
-                for (var r = 0; r < rows.length; r++) {
-                    var rowMatches = (jur === 'all' || rows[r].getAttribute('data-jur') === jur);
-                    rows[r].style.display = rowMatches ? '' : 'none';
-                }
-            });
+    if (list.length === 0) {
+        var snapshotEl = document.getElementById('wbd-tracker-snapshot');
+        if (snapshotEl) {
+            snapshotEl.innerHTML = '';
         }
+        var previewEl = document.getElementById('wbd-tracker-preview');
+        if (previewEl) {
+            previewEl.innerHTML = '';
+        }
+        var gatedEl = document.getElementById('wbd-tracker-gated');
+        if (gatedEl) {
+            gatedEl.style.display = 'none';
+        }
+        outputEl.innerHTML = '<p class="wbd-none">No tracked changes yet' + (isJurisdictionPage ? ' for this jurisdiction' : '') + '. Check back after the next weekly brief.</p>';
+        return;
+    }
+
+    if (isJurisdictionPage) {
+        var frag = document.createDocumentFragment();
+        for (i = 0; i < list.length; i++) {
+            frag.appendChild(buildRow(list[i]));
+        }
+        outputEl.innerHTML = '';
+        outputEl.appendChild(frag);
+        return;
+    }
+
+    // /tracker/ only, from here down: snapshot tiles + chips, a 5-item
+    // preview, then the remainder inside the fade-gated wrapper.
+    var snapshotWrap = document.getElementById('wbd-tracker-snapshot');
+    if (snapshotWrap) {
+        var counts = { force: 0, upcoming: 0, proposed: 0 };
+        var jurCounts = {};
+        for (i = 0; i < list.length; i++) {
+            var s = list[i].status;
+            if (counts[s] !== undefined) {
+                counts[s]++;
+            }
+            var j = list[i].jur;
+            jurCounts[j] = (jurCounts[j] || 0) + 1;
+        }
+        var movingCount = counts.upcoming + counts.proposed;
+
+        var jurOrder = Object.keys(jurCounts).sort(function(a, b) {
+            return jurCounts[b] - jurCounts[a];
+        });
+
+        var tilesHtml = ''
+            + '<div class="wbd-tracker-tile">'
+            + '<span class="wbd-tracker-tile-num">' + list.length + '</span>'
+            + '<span class="wbd-tracker-tile-label">Changes tracked</span>'
+            + '</div>'
+            + '<div class="wbd-tracker-tile wbd-tracker-tile-force">'
+            + '<span class="wbd-tracker-tile-num">' + counts.force + '</span>'
+            + '<span class="wbd-tracker-tile-label">In force</span>'
+            + '</div>'
+            + '<div class="wbd-tracker-tile wbd-tracker-tile-upcoming">'
+            + '<span class="wbd-tracker-tile-num">' + movingCount + '</span>'
+            + '<span class="wbd-tracker-tile-label">Upcoming + proposed</span>'
+            + '</div>';
+
+        var chipsHtml = jurOrder.map(function(j) {
+            return '<span class="wbd-tracker-chip">' + (labels[j] || j) + ' · ' + jurCounts[j] + '</span>';
+        }).join('');
+
+        snapshotWrap.innerHTML = ''
+            + '<div class="wbd-tracker-tiles">' + tilesHtml + '</div>'
+            + '<div class="wbd-tracker-chips">' + chipsHtml + '</div>';
+    }
+
+    var PREVIEW_COUNT = 5;
+    var previewWrap = document.getElementById('wbd-tracker-preview');
+    if (previewWrap) {
+        var previewFrag = document.createDocumentFragment();
+        for (i = 0; i < Math.min(PREVIEW_COUNT, list.length); i++) {
+            previewFrag.appendChild(buildRow(list[i]));
+        }
+        previewWrap.innerHTML = '';
+        previewWrap.appendChild(previewFrag);
+    }
+
+    var rest = list.slice(PREVIEW_COUNT);
+    var gatedWrap = document.getElementById('wbd-tracker-gated');
+    var ctaHead = gatedWrap ? gatedWrap.querySelector('.wbd-tracker-cta-head') : null;
+    if (rest.length === 0) {
+        if (gatedWrap) {
+            gatedWrap.style.display = 'none';
+        }
+    } else {
+        var restFrag = document.createDocumentFragment();
+        for (i = 0; i < rest.length; i++) {
+            restFrag.appendChild(buildRow(rest[i]));
+        }
+        outputEl.innerHTML = '';
+        outputEl.appendChild(restFrag);
+        if (ctaHead) {
+            ctaHead.textContent = 'See all ' + list.length + ' tracked changes';
+        }
+    }
+
+    var filterNav = document.querySelector('.wbd-tracker-filters');
+    if (filterNav) {
+        filterNav.addEventListener('click', function(e) {
+            var link = e.target.closest('.wbd-tracker-filter');
+            if (!link || !filterNav.contains(link)) {
+                return;
+            }
+            var jur = link.getAttribute('data-jur');
+            if (!jur) {
+                return; // real link to its own /jurisdiction/{slug}/ page, let it navigate
+            }
+            e.preventDefault();
+
+            var allFilters = filterNav.querySelectorAll('.wbd-tracker-filter');
+            for (var t = 0; t < allFilters.length; t++) {
+                allFilters[t].classList.remove('is-active');
+            }
+            link.classList.add('is-active');
+
+            var rows = document.querySelectorAll('#wbd-tracker-preview .wbd-tracker-row, #wbd-tracker-output .wbd-tracker-row');
+            for (var r = 0; r < rows.length; r++) {
+                var rowMatches = (jur === 'all' || rows[r].getAttribute('data-jur') === jur);
+                rows[r].style.display = rowMatches ? '' : 'none';
+            }
+        });
     }
 })();

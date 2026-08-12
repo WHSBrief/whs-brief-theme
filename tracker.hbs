@@ -2,10 +2,19 @@
 {{!-- WHS Brief: public Change Tracker (/tracker/).
 
 Not to be confused with /register/ (register.hbs), which is paid-member-only
-and shows full item content grouped by jurisdiction. This page is the
-opposite on purpose: public, headline + date only, no analysis — the doc
-this was built from calls it "the best SEO asset available in this market
-because it answers the exact query people type."
+and shows full item content grouped by jurisdiction. This page stays public
+and headline-only, but unlike the original version of this page, only a
+handful of the most recent items are shown in full — the rest sit behind a
+subscribe nudge. This is a deliberate conversion tradeoff (drive visitors to
+subscribe) traded against the doc's original "give the whole list away free,
+it's the best SEO asset" framing. To keep some of that SEO value despite the
+gate, every item is still rendered into the real DOM (nothing is loaded only
+on click, nothing is server-side member-gated the way /register/ is) — the
+gate is a CSS max-height + fade + overlay CTA over content that's genuinely
+present in the page source, not content withheld from it. The 9
+/jurisdiction/{slug}/ pages are untouched by this and still show their full
+list openly, since each is a smaller, targeted long-tail SEO landing page,
+not "give away the whole store" in the way the all-jurisdictions view was.
 
 How this works:
   - Each week, whs-legislative-brief-weekly creates/updates one small ALWAYS-
@@ -16,9 +25,10 @@ How this works:
     assets/js/tracker.js) walks it, flattens every .wbd-tracker-item across
     all of them into one list, sorts newest first, and caps display to the
     last 12 months.
-  - No member-gating fallback branch is needed here (unlike register.hbs) —
-    #tracker posts are never gated, so {{content}} always renders in full for
-    every visitor.
+  - tracker.js then splits that list three ways: aggregate counts feed the
+    snapshot stat tiles and jurisdiction chips, the first 5 items render in
+    full into #wbd-tracker-preview, and everything after that renders into
+    #wbd-tracker-output inside the fade-gated wrapper.
   - The jurisdiction filter row below links to the 9 real /jurisdiction/{slug}/
     pages (crawlable, not JS-only) for SEO, plus a couple of JS-only filters
     (National, Standards) that don't have their own dedicated URL since the
@@ -39,11 +49,7 @@ How this works:
         not after it closes — the --wbd-* custom properties (--wbd-rule,
         --wbd-ink-soft, --wbd-accent, etc.) used throughout this page's CSS
         are scoped to .whs-brief-doc, not :root (see screen.css ~line 3265).
-        Outside this wrapper those var() references resolve to nothing,
-        which silently zeroes out anything depending on them (e.g. border
-        computes to "0px none" since an invalid var() falls back to the
-        property's initial value) — this is what left the filter pills with
-        no visible border before this was caught. --}}
+        Outside this wrapper those var() references resolve to nothing. --}}
         <nav class="wbd-tracker-filters" aria-label="Filter by jurisdiction">
             <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter is-active" data-jur="all">All</a>
             <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="national">National</a>
@@ -59,11 +65,26 @@ How this works:
             <a href="{{@site.url}}/tracker/" class="wbd-tracker-filter" data-jur="standards">Standards</a>
         </nav>
 
-        <div id="wbd-tracker-output" class="wbd-tracker-output">
-            <p class="wbd-tracker-loading">Loading tracker…</p>
+        {{!-- Live snapshot: stat tiles + jurisdiction chips, computed by
+        tracker.js from the same data as everything else on this page. --}}
+        <div id="wbd-tracker-snapshot" class="wbd-tracker-snapshot">
+            <p class="wbd-tracker-loading">Loading snapshot…</p>
         </div>
 
-        <p class="wbd-register-footnote">Showing changes from roughly the last 12 months. Want the analysis, not just the headline? <a href="{{@site.url}}/brief/">Subscribe to the full weekly brief</a>.</p>
+        <h2 class="wbd-tracker-subhead">Recently added</h2>
+        <div id="wbd-tracker-preview" class="wbd-tracker-preview"></div>
+
+        <div class="wbd-tracker-gated" id="wbd-tracker-gated">
+            <div id="wbd-tracker-output" class="wbd-tracker-output"></div>
+            <div class="wbd-tracker-fade"></div>
+            <div class="wbd-tracker-cta">
+                <p class="wbd-tracker-cta-head">See every tracked change</p>
+                <p class="wbd-tracker-cta-body">Subscribe to browse the complete, filterable list across all nine Australian jurisdictions, New Zealand and Standards, not just the five most recent.</p>
+                <a class="wbd-tracker-cta-btn" data-portal="signup">Subscribe</a>
+            </div>
+        </div>
+
+        <p class="wbd-register-footnote">Want the analysis, not just the headline? <a href="{{@site.url}}/brief/">Subscribe to the full weekly brief</a>.</p>
 
         {{!-- Hidden source data: full content of recent #tracker posts, for
         tracker.js to parse. Never shown directly. --}}

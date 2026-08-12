@@ -3859,3 +3859,152 @@ html.dark-mode .whs-brief-doc {
 #wbd-tracker-source {
     display: none !important;
 }
+
+/* Tracker snapshot (stat tiles + jurisdiction chips), preview and the
+   fade-gated remainder with its subscribe CTA. /tracker/ only — see
+   tracker.hbs and assets/js/tracker.js for why /jurisdiction/{slug}/ pages
+   don't use any of this and keep showing their full list openly. */
+.wbd-tracker-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    margin: 1.6rem 0;
+}
+
+.wbd-tracker-tile {
+    background: var(--wbd-paper-raised);
+    border: 1px solid var(--wbd-rule);
+    border-radius: 8px;
+    padding: 1.4rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.4rem;
+}
+
+.wbd-tracker-tile-num {
+    font-family: var(--wbd-serif);
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: var(--wbd-ink);
+    line-height: 1;
+}
+
+.wbd-tracker-tile-label {
+    font-size: 1.05rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--wbd-ink-soft);
+}
+
+.wbd-tracker-tile-force {
+    background: var(--wbd-force-bg);
+    border-color: transparent;
+}
+
+.wbd-tracker-tile-force .wbd-tracker-tile-num,
+.wbd-tracker-tile-force .wbd-tracker-tile-label {
+    color: var(--wbd-force);
+}
+
+.wbd-tracker-tile-upcoming {
+    background: var(--wbd-upcoming-bg);
+    border-color: transparent;
+}
+
+.wbd-tracker-tile-upcoming .wbd-tracker-tile-num,
+.wbd-tracker-tile-upcoming .wbd-tracker-tile-label {
+    color: var(--wbd-upcoming);
+}
+
+@media (max-width: 640px) {
+    .wbd-tracker-tiles {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wbd-tracker-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+}
+
+.wbd-tracker-chip {
+    font-size: 1rem;
+    color: var(--wbd-ink-soft);
+    background: var(--wbd-paper-raised);
+    border: 1px solid var(--wbd-rule);
+    border-radius: 20px;
+    padding: 0.35rem 0.9rem;
+}
+
+.wbd-tracker-subhead {
+    font-family: var(--wbd-serif);
+    font-size: 1.7rem;
+    font-weight: 600;
+    color: var(--wbd-ink);
+    margin: 0 0 0.8rem;
+}
+
+.wbd-tracker-preview {
+    margin-bottom: 1rem;
+}
+
+.wbd-tracker-gated {
+    position: relative;
+    max-height: 22rem;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.wbd-tracker-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 12rem;
+    background: linear-gradient(to bottom, transparent, var(--wbd-paper) 85%);
+    pointer-events: none;
+}
+
+.wbd-tracker-cta {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.5rem;
+    text-align: center;
+    padding: 1rem 1.5rem 0;
+}
+
+.wbd-tracker-cta-head {
+    font-family: var(--wbd-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--wbd-ink);
+    margin: 0 0 0.4rem;
+}
+
+.wbd-tracker-cta-body {
+    font-size: 1.1rem;
+    color: var(--wbd-ink-soft);
+    max-width: 40rem;
+    margin: 0 auto 0.9rem;
+}
+
+.wbd-tracker-cta-btn {
+    display: inline-block;
+    background: var(--wbd-accent);
+    color: var(--wbd-paper-raised);
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0.7rem 1.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.wbd-tracker-cta-btn:hover {
+    opacity: 0.9;
+}
