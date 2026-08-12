@@ -112,11 +112,12 @@
         meta.appendChild(statusTag);
         meta.appendChild(dateTag);
 
-        var headline = entry.el.cloneNode(true);
-        headline.removeAttribute('data-jur');
-        headline.removeAttribute('data-date');
-        headline.removeAttribute('data-status');
+        // Plain text, not a link to the external source — an outbound link
+        // here gives a visitor an easy way to leave the site instead of
+        // subscribing, which works against the whole point of the gate.
+        var headline = document.createElement('div');
         headline.className = 'wbd-tracker-headline';
+        headline.textContent = entry.el.textContent.trim();
 
         row.appendChild(meta);
         row.appendChild(headline);

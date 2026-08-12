@@ -3835,15 +3835,7 @@ html.dark-mode .whs-brief-doc {
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1.35;
-}
-
-.wbd-tracker-headline a {
     color: var(--wbd-ink);
-    text-decoration: none;
-}
-
-.wbd-tracker-headline a:hover {
-    text-decoration: underline;
 }
 
 .wbd-tracker-loading,
