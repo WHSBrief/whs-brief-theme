@@ -91,6 +91,33 @@
 
     {{!-- The global footer at the very bottom of the screen --}}
     <footer class="site-footer outer">
+        {{!-- Sitewide link into the /tracker/ + /jurisdiction/{slug}/ pages,
+        present on every page (posts, homepage, /brief/, everywhere) so that
+        cluster isn't only reachable via the sitemap or a direct URL. This is
+        deliberately plain site navigation, not an in-flow "filter" — see
+        tracker.hbs's own comment for why real jurisdiction links were
+        removed FROM the gated Tracker page itself (they let a visitor click
+        straight through the subscribe gate to the same content, fully open).
+        A footer row like this doesn't have that problem: it's identical for
+        every visitor regardless of membership, isn't presented as part of
+        interacting with the gated list, and jurisdiction pages were always
+        meant to be public. Once a crawler reaches any one of these, the
+        filter nav on jurisdiction.hbs itself links to the rest. --}}
+        <div class="inner site-footer-linkrow">
+            <nav class="site-footer-jurisdictions" aria-label="Browse the Change Tracker by jurisdiction">
+                <span class="site-footer-jurisdictions-label">Change Tracker</span>
+                <a href="{{@site.url}}/tracker/">All</a>
+                <a href="{{@site.url}}/jurisdiction/nsw/">NSW</a>
+                <a href="{{@site.url}}/jurisdiction/vic/">VIC</a>
+                <a href="{{@site.url}}/jurisdiction/qld/">QLD</a>
+                <a href="{{@site.url}}/jurisdiction/wa/">WA</a>
+                <a href="{{@site.url}}/jurisdiction/sa/">SA</a>
+                <a href="{{@site.url}}/jurisdiction/tas/">TAS</a>
+                <a href="{{@site.url}}/jurisdiction/act/">ACT</a>
+                <a href="{{@site.url}}/jurisdiction/nt/">NT</a>
+                <a href="{{@site.url}}/jurisdiction/nz/">NZ</a>
+            </nav>
+        </div>
         <div class="inner">
             <section class="copyright"><a href="{{@site.url}}">{{@site.title}}</a> &copy; {{date format="YYYY"}}</section>
             <div class="site-footer-center">
