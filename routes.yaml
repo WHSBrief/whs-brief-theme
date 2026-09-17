@@ -7,35 +7,56 @@
 #   - Live Ghost(Pro) site: Settings > Advanced > Routes > upload this file.
 #
 # What this does:
-#   - ALL posts get the same flat /{slug}/ permalink, via the single
-#     unfiltered "/" collection below — Ghost's collections are mutually
-#     exclusive (a post claimed by one collection's filter disappears from
-#     any other, including an unfiltered one), so an earlier version of this
-#     file that gave /blog/ and /brief/ their own permalink-claiming
-#     collections caused the homepage to show ZERO posts once every post was
-#     tagged #blog or #brief (both got claimed, leaving nothing for the
-#     unfiltered "/" collection to list). Keeping permalinks on a single
-#     collection avoids that trap.
-#   - /blog/, /brief/, /register/, /industry-brief/ and /tracker/ are plain
-#     routes (not collections) rendering the theme's blog.hbs / brief.hbs /
-#     register.hbs / industry-brief.hbs / tracker.hbs templates, which
-#     independently fetch posts via {{#get}} with a tag filter — pure
-#     browsing views, with no effect on permalinks or on what the homepage
-#     shows. /register/ additionally reorganises #brief posts' content
-#     client-side by jurisdiction instead of by week — see register.hbs.
-#     /industry-brief/ is the sibling monthly brief tagged #industry-brief
-#     instead of #brief — see industry-brief.hbs. /tracker/ is the PUBLIC
-#     (not paid-gated) headline-only change tracker, sourced from #tracker-
-#     tagged posts, not #brief — see tracker.hbs. Do not confuse it with
-#     /register/, which is paid-only and shows full item content.
+#   - ALL posts get the same flat /{slug}/ permalink, via either the
+#     unfiltered "/" collection or the filtered "/tracker/" collection below
+#     — Ghost's collections are mutually exclusive (a post claimed by one
+#     collection's filter disappears from any other, including an unfiltered
+#     one), so an earlier version of this file that gave /blog/ and /brief/
+#     their own permalink-claiming collections caused the homepage to show
+#     ZERO posts once every post was tagged #blog or #brief (both got
+#     claimed, leaving nothing for the unfiltered "/" collection to list).
+#     Keeping every collection's permalink on the same flat /{slug}/ pattern
+#     avoids that trap while still letting a tag-filtered collection exclude
+#     its posts from the homepage feed.
+#   - /blog/, /brief/, /register/ and /industry-brief/ are plain routes (not
+#     collections) rendering the theme's blog.hbs / brief.hbs / register.hbs
+#     / industry-brief.hbs templates, which independently fetch posts via
+#     {{#get}} with a tag filter — pure browsing views, with no effect on
+#     permalinks or on what the homepage shows. /register/ additionally
+#     reorganises #brief posts' content client-side by jurisdiction instead
+#     of by week — see register.hbs. /industry-brief/ is the sibling monthly
+#     brief tagged #industry-brief instead of #brief — see
+#     industry-brief.hbs. Do not confuse either with /tracker/ below.
+#   - /tracker/ IS a collection (filter: tag:tracker), not a plain route —
+#     changed 2026-09-17 after #tracker-tagged posts (meant to be lightweight
+#     headline-only teasers, see tracker.hbs) were found appearing in full,
+#     un-gated, front-and-centre on the homepage feed, defeating the whole
+#     point of tracker.hbs's own 5-item anonymous-visitor cap and giving away
+#     free what the paywall is meant to nudge people to subscribe for. Being
+#     a collection means Ghost claims #tracker posts out of the unfiltered
+#     "/" collection entirely — they no longer appear on the homepage — while
+#     keeping the same flat /{slug}/ permalink (no broken links) and the same
+#     tracker.hbs template at /tracker/ itself (so the page's own gating
+#     logic, and its {{#get filter="tag:tracker"}} data source, are
+#     unaffected). It must be listed BEFORE the unfiltered "/" collection
+#     below — Ghost claims posts into the first matching collection in file
+#     order, so if "/" came first it would claim everything, including
+#     #tracker posts, before "/tracker/" ever got a chance to filter them
+#     out. NOTE: this only stops tracker posts appearing on the homepage
+#     LISTING — visiting a tracker post's own URL directly still shows its
+#     full (headline+date-only, no analysis) body with no cap, since that's
+#     Ghost's normal single-post render, untouched by tracker.hbs's
+#     JS-based gating. If that turns out to still feel like "too much for
+#     free", the next fix would need to change what's IN each week's
+#     #tracker post, not the routing.
 #   - /jurisdiction/{slug}/ (nsw, vic, qld, wa, sa, tas, act, nt, nz) are 9
 #     more plain routes, all sharing one jurisdiction.hbs template — the page
 #     itself reads which slug it's on from the URL client-side, so there's no
 #     per-jurisdiction template. Same #tracker-tagged, public data source as
 #     /tracker/, just pre-filtered to one jurisdiction.
-#   - The homepage (/) lists ALL posts together (mixed feed) — gated
-#     #brief posts show with Ghost's built-in locked-card styling there,
-#     which is what nudges free readers toward subscribing.
+#   - The homepage (/) lists all NON-#tracker posts together (mixed feed) —
+#     gated #brief posts show with Ghost's built-in locked-card styling
+#     there, which is what nudges free readers toward subscribing.
 #
 # Content access (Public / free members / paid members only) is set per-post
 # in the editor's Access setting — routes.yaml only controls URL structure
@@ -60,9 +81,6 @@ routes:
 
   /industry-brief/:
     template: industry-brief
-
-  /tracker/:
-    template: tracker
 
   /jurisdiction/nsw/:
     template: jurisdiction
@@ -92,6 +110,11 @@ routes:
     template: jurisdiction
 
 collections:
+  /tracker/:
+    permalink: /{slug}/
+    filter: tag:tracker
+    template: tracker
+
   /:
     permalink: /{slug}/
     template: index
