@@ -4044,3 +4044,85 @@ html.dark-mode .whs-brief-doc {
 .wbd-tracker-cta-btn:hover {
     opacity: 0.9;
 }
+
+/* Gating for a #tracker post viewed on its OWN url (e.g.
+   /whs-tracker-week-38-of-2026/), not via the aggregated /tracker/ page.
+   Added 2026-09-17: #tracker posts are meant to be a capped, headline-only
+   teaser for anonymous visitors (see tracker.hbs's own 5-item cap + fade),
+   but that cap only ever applied on the /tracker/ aggregation page — the
+   post's own standalone page, rendered by post.hbs through Ghost's normal
+   single-post flow, had no cap at all, so the full week's list was one
+   click (or one homepage card, before that was fixed separately) away from
+   completely open. These classes are Casper-global (using --color-* /
+   --ghost-accent-color, not the --wbd-* tokens, which are scoped to
+   .whs-brief-doc and unavailable in post.hbs's plain article markup) so
+   they work standalone in post.hbs without needing that wrapper. */
+.tracker-post-gated {
+    position: relative;
+    max-height: 14rem;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.tracker-post-fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, #fff 90%);
+    pointer-events: none;
+}
+
+html.dark-mode .tracker-post-fade {
+    background: linear-gradient(to bottom, transparent, var(--color-darkmode) 90%);
+}
+
+.tracker-post-cta {
+    text-align: center;
+    background: var(--color-lightgrey);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.6rem 1.5rem;
+    margin-top: 0.8rem;
+}
+
+html.dark-mode .tracker-post-cta {
+    background: #1b1e21;
+    border-color: #2b2f33;
+}
+
+.tracker-post-cta-head {
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-darkgrey);
+    margin: 0 0 0.4rem;
+}
+
+html.dark-mode .tracker-post-cta-head {
+    color: #e4e8e3;
+}
+
+.tracker-post-cta-body {
+    font-size: 1.1rem;
+    color: var(--color-midgrey);
+    max-width: 40rem;
+    margin: 0 auto 0.9rem;
+}
+
+.tracker-post-cta-btn {
+    display: inline-block;
+    background: var(--ghost-accent-color);
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 600;
+    padding: 0.7rem 1.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tracker-post-cta-btn:hover {
+    opacity: 0.9;
+}

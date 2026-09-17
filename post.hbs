@@ -85,9 +85,34 @@ into the {body} tag of the default.hbs template --}}
 
     </header>
 
-    <section class="gh-content gh-canvas">
-        {{content}}
-    </section>
+    {{!-- #tracker posts are meant to be a capped, headline-only teaser for
+    anonymous visitors, same as the aggregated /tracker/ page's own 5-item
+    cap (see tracker.hbs) — but viewed on its own url like this, a #tracker
+    post is otherwise just a normal fully-open post, which was defeating
+    that cap entirely (added 2026-09-17, see the matching CSS comment in
+    screen.css for more). Signed-in members (free or paid, same as
+    tracker.hbs's own check) get the full content, uncapped. --}}
+    {{#has tag="tracker"}}
+    {{#unless @member}}
+        <section class="gh-content gh-canvas tracker-post-gated">
+            {{content}}
+            <div class="tracker-post-fade"></div>
+        </section>
+        <div class="tracker-post-cta gh-canvas">
+            <p class="tracker-post-cta-head">See every tracked change</p>
+            <p class="tracker-post-cta-body">Subscribe to browse the complete list across all nine Australian jurisdictions, New Zealand and Standards, not just this week's preview.</p>
+            <a class="tracker-post-cta-btn" data-portal="signup">Subscribe</a>
+        </div>
+    {{else}}
+        <section class="gh-content gh-canvas">
+            {{content}}
+        </section>
+    {{/unless}}
+    {{else}}
+        <section class="gh-content gh-canvas">
+            {{content}}
+        </section>
+    {{/has}}
 
     {{> "ad-in-content"}}
 
