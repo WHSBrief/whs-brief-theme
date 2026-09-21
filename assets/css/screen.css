@@ -2151,6 +2151,22 @@ html.dark-mode .gh-button-share:hover {
     height: 16px;
 }
 
+.site-footer-fediverse-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 4px;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255,255,255,0.2);
+    font-size: 1.2rem;
+}
+
+.site-footer-fediverse-link svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
 .site-footer .copyright a {
     color: #fff;
     letter-spacing: -0.015em;

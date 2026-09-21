@@ -130,6 +130,15 @@
                             {{/undefined}}
                         </a>
                     {{/social_accounts}}
+                    {{!-- Ghost's built-in ActivityPub/Network feature gives the site a
+                    fediverse actor (@index@whsbrief.com) that Mastodon, Threads and
+                    other ActivityPub apps can follow, but the actor's own profile URL
+                    just returns raw JSON — not something a visitor can act on. This
+                    link + handle is the human-readable entry point into that. --}}
+                    <a href="{{@site.url}}/.ghost/activitypub/users/index" target="_blank" rel="noopener me" class="site-footer-fediverse-link" aria-label="Follow WHS Brief on the Fediverse">
+                        {{> "icons/mastodon"}}
+                        <span>Follow on the Fediverse</span>
+                    </a>
                 </div>
                 <nav class="site-footer-nav">
                     {{navigation type="secondary"}}
